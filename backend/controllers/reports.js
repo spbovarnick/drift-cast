@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
 // Create route (POST)
 router.post('/', (req, res) => {
     db.Report.create(req.body)
-        .then(report => res.json(this.report))
+        .then(report => res.json(report))
 })
 
 

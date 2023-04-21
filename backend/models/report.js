@@ -5,14 +5,14 @@ const reportSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // tripDate: {
-    //     type: Date,
-    //     required: false
-    // },
-    // tripTime: {
-    //     type: Date,
-    //     required: false
-    // },
+    tripDate: {
+        type: Date,
+        required: false
+    },
+    tripTime: {
+        type: Date,
+        required: false
+    },
     report: {
         type: String,
         required: true
