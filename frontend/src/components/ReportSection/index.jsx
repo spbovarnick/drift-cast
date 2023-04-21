@@ -9,7 +9,7 @@ export default function ReportSection() {
         tripDate: '',
         tripTime: '',
         report: '',
-        image: undefined,
+        // image: undefined,
     })
 
     const handleInputChange = (event) => {
@@ -21,14 +21,20 @@ export default function ReportSection() {
   
     const handleSubmit = (event) => {
         event.preventDefault()
-        postReport({ ...createFormData })
+        const formData = new FormData()
+        for (const [key, value] of Object.entries(createFormData)) {
+            formData.append(key, value)
+        }
+        formData.append("image", file)
+        postReport(formData)
         setCreateFormData({
             userName: '',
             tripDate: '',
             tripTime: '',
             report: '',
-            image: undefined,
+            // image: undefined,
         })
+        setFile(undefined)
     }
 
     let maxDate = new Date().toISOString().split("T")[0];
@@ -68,9 +74,8 @@ export default function ReportSection() {
             <input 
                 type="file" 
                 accept="image/*"
-                onChange={handleInputChange}
+                onChange={e => setFile(e.target.files[0])}
                 name="image"
-                value={createFormData.image}
             />
             <button type="Submit">Submit Report</button>
         </form>
