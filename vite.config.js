@@ -10,12 +10,12 @@ export default defineConfig({
   envFile: path.resolve(__dirname, '.env'),
   server: {
     proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
-        ws: true,
+        '/api': {
+            target: 'http://localhost:3000',
+            changeOrigin: true,
+            secure: false,
+            ws: true,
+          }
       }
-    }
   }
 })
