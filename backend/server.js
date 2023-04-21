@@ -6,6 +6,7 @@ const express = require('express')
 const cors = require('cors')
 
 
+
 /* Required routes in controllers folder
 -------------------------------------------- */
 const reportCtrl = require('./controllers/reports')
