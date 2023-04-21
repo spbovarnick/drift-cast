@@ -10,7 +10,7 @@ const reportSchema = new mongoose.Schema({
         required: false
     },
     tripTime: {
-        type: Date,
+        type: String,
         required: false
     },
     report: {

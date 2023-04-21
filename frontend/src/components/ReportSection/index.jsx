@@ -1,3 +1,4 @@
+import { toFormData } from "axios";
 import { useState } from "react";
 import { postReport } from "../../../utils/backend";
 
@@ -7,7 +8,8 @@ export default function ReportSection() {
         userName: '',
         tripDate: '',
         tripTime: '',
-        
+        report: '',
+        image: undefined,
     })
 
     const handleInputChange = (event) => {
@@ -19,11 +21,14 @@ export default function ReportSection() {
   
     const handleSubmit = (event) => {
         event.preventDefault()
-        postReport({})
-        const formData = new FormData();
-        formData.append("image", file)
-        formData.append("caption", caption)
-    axios.post("/api/posts", formData, { headers: {'Content-Type': 'multipart/form-data'}})
+        postReport({ ...createFormData })
+        setCreateFormData({
+            userName: '',
+            tripDate: '',
+            tripTime: '',
+            report: '',
+            image: undefined,
+        })
     }
 
     let maxDate = new Date().toISOString().split("T")[0];
@@ -32,6 +37,7 @@ export default function ReportSection() {
     return (
         <form onSubmit={handleSubmit}>
             <input 
+                required
                 type="text"
                 placeholder="Your username"
                 onChange={handleInputChange}
@@ -53,15 +59,18 @@ export default function ReportSection() {
                 value={createFormData.tripTime}
             />
             <textarea 
+                required
                 placeholder="Share your report"
                 onChange={handleInputChange}
-                name="tripReport"
+                name="report"
                 value={createFormData.report}
             />
             <input 
-                onChange={e => setFile(e.target.files[0])}
                 type="file" 
                 accept="image/*"
+                onChange={handleInputChange}
+                name="image"
+                value={createFormData.image}
             />
             <button type="Submit">Submit Report</button>
         </form>
