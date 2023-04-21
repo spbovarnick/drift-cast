@@ -4,8 +4,7 @@ const db = require("../models")
 
 /* Routes
 ------------------------------ */ 
-// index route (GET), displays all
-// index route (GET), displays all 
+// Index route (GET), displays all
 router.get('/', function(req, res) {
     db.Report.find({ })
         .then(reports => res.json(reports))
@@ -27,6 +26,11 @@ router.put('/:id', (req, res) => {
         .then(report => res.json(report))
 })
 
+// Destroy route (DELETE)
+router.delete('/:id', (req, res) => {
+    db.Report.findByIdAndRemove(req.params.id)
+        .then(report => res.send('deleted'))
+})
 
 
 module.exports = router
