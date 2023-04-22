@@ -8,7 +8,8 @@
 - Mongoose
 - Express.js
 - multer
-- @aws-sdk/client-s3
+- client-s3
+- s3-request-presigner
 - path
 - dotenv
 - axios

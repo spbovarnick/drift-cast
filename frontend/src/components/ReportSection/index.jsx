@@ -9,7 +9,7 @@ export default function ReportSection() {
         tripDate: '',
         tripTime: '',
         report: '',
-        // image: undefined,
+        image: undefined,
     })
 
     const handleInputChange = (event) => {
@@ -32,7 +32,7 @@ export default function ReportSection() {
             tripDate: '',
             tripTime: '',
             report: '',
-            // image: undefined,
+            image: undefined,
         })
         setFile(undefined)
     }
