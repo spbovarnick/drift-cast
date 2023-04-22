@@ -3,7 +3,7 @@ const router = express.Router()
 const db = require("../models")
 const multer  = require('multer')
 const crypto = require('crypto')
-const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
 
@@ -57,7 +57,7 @@ router.post('/', upload.single('image'), async (req, res) => {
     console.log("req.file", req.file)
 
     // load filed to memory
-    req.file.buffer
+    req.file.buffer 
 
     // generate random name
     const imageName = randomImageName()
@@ -98,8 +98,17 @@ router.put('/:id', (req, res) => {
 })
 
 // Destroy route (DELETE)
-router.delete('/:id', (req, res) => {
-    db.Report.findByIdAndRemove(req.params.id)
+router.delete('/:id', async (req, res) => {
+    const report = await db.Report.findOne({ _id: req.params.id })
+    
+    const command = new DeleteObjectCommand({
+        Bucket: bucketName,
+        Key: report.image
+    })
+    await s3.send(command)
+
+
+    await db.Report.findByIdAndRemove(req.params.id)
         .then(report => res.send('deleted'))
 })
 
