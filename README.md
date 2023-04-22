@@ -12,3 +12,4 @@
 - path
 - dotenv
 - axios
+- AWS S3

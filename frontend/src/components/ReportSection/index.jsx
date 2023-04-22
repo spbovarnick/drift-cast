@@ -74,8 +74,8 @@ export default function ReportSection() {
             <input 
                 type="file" 
                 accept="image/*"
-                onChange={e => setFile(e.target.files[0])}
                 name="image"
+                onChange={e => setFile(e.target.files[0])}
             />
             <button type="Submit">Submit Report</button>
         </form>

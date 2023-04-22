@@ -2,19 +2,20 @@ const express = require('express')
 const router = express.Router()
 const db = require("../models")
 const multer  = require('multer')
-// const S3Client = require('S3Client')
-// const PutObjectCommand = require('PutObjectCommand')
-// import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
+const crypto = require('crypto')
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
-require('dotenv').config()
-
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
+require('dotenv').config()
 
+// assigning S3 variable from .env
 const bucketName = process.env.BUCKET_NAME
 const bucketRegion = process.env.BUCKET_REGION
 const s3AccessKey = process.env.S3_ACCESS_KEY
 const s3SecretAccessKey = process.env.S3_SECRET_ACCESS_KEY
+
+// random name generator
+const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
 
 // new S3 object
 const s3 = new S3Client({
@@ -36,14 +37,14 @@ router.get('/', function(req, res) {
 // Create route (POST)
 router.post('/', upload.single('image'), async (req, res) => {
     // console.log("req.body", req.body)
-    // console.log("req.file", req.file)
+    console.log("req.file", req.file)
 
     req.file.buffer
 
     const commandParams = {
         Bucket: bucketName,
-        Key: req.file.originalname,
-        Boyd: req.file.buffer,
+        Key: randomImageName(),
+        Body: req.file.buffer,
         ContentType: req.file.mimetype,
     }
     
