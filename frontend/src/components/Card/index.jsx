@@ -1,11 +1,10 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
 
-export default function Card() {
-    
 
-      
+export default function Card({ riverData }) {
+      console.log(riverData.name)
     return (
-        null
+        <>
+            <p>{riverData.name}</p>
+        </>
     )
 }
