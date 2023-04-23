@@ -49,7 +49,9 @@ getData("https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=141
   })
     .then(res => setRiverData(res))
 }, [])
+
 console.log(riverData)
+
 let riverInfo = <p>River data loading...</p>
 if (Object.keys(riverData).length > 0){
     riverInfo = riverData
