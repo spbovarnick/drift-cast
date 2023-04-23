@@ -1,12 +1,17 @@
-import { useState } from 'react'
-import ReportSection from '../ReportSection'
+import { useState, useEffect } from 'react'
+import NavBar from '../NavBar'
+import Footer from '../Footer'
+
 
 function App() {
 
   return (
     <>
-      <h1>Active</h1>
-      <ReportSection />
+      <NavBar />
+
+      <h1 className='border-2'>Hello</h1>
+      
+      <Footer />
     </>
   )
 }

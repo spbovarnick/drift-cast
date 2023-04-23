@@ -54,7 +54,7 @@ router.get('/', async function(req, res) {
 // Create route (POST)
 router.post('/', upload.single('image'), async (req, res) => {
     // console.log("req.body", req.body)
-    console.log("req.file", req.file)
+    // console.log("req.file", req.file)
 
     // load filed to memory
     req.file.buffer 
