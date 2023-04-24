@@ -108,14 +108,14 @@ function App() {
     
 
   return (
-    <>
+    <body className=''>
       <NavBar />
 
-      <div>
+      <div className='flex justify-items-center grid grid-cols-1 lg:grid-cols-2 m-20 gap-4'>
         {riverInfo}
       </div>      
       <Footer />
-    </>
+    </body>
   )
 }
 
