@@ -36,9 +36,9 @@ function App() {
     {
         name: "Wilson River",
         goodLow: 3.5,
-        goodHigh: 6,
+        goodHigh: 4.8,
         perfectHigh: 5.4,
-        highHigh: 9,
+        highHigh: 6.5,
         tooHighHigh: 10.5,
     },
     {
