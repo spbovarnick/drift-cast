@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import axios from 'axios'
 import NavBar from '../NavBar'
 import Footer from '../Footer'
 import Card from '../Card'
+import DetailsPage from '../DetailsPage'
+import HomePage from '../HomePage'
 
 
 function App() {
   const [riverData, setRiverData] = useState([])
+  const [detailPage, setDetailPage] = useState()
   
 
   const getData = async (string) => {
@@ -76,6 +80,7 @@ function App() {
         })
         arr.push( {
           "name": name,
+          "siteCode": res.value.timeSeries[i].sourceInfo.siteCode[0].value,
           "siteName": res.value.timeSeries[i].sourceInfo.siteName,
           "latitude": res.value.timeSeries[i].sourceInfo.geoLocation.geogLocation.latitude,
           "longitude": res.value.timeSeries[i].sourceInfo.geoLocation.geogLocation.longitude,
@@ -95,27 +100,45 @@ function App() {
 
   console.log(riverData)
 
-  let riverInfo = <p>River data loading...</p>
+  let allRivers = <p>River data loading...</p>
   if (Object.keys(riverData).length > 0){
-      riverInfo = riverData
+      allRivers = riverData
         .map((river, i) => 
           <Card 
             key={i}  
             riverData={river}
+            setDetailPage={setDetailPage}
           />
         )
   }
     
 
   return (
-    <body className=''>
+    <>
       <NavBar />
 
-      <div className='flex justify-items-center grid grid-cols-1 lg:grid-cols-2 m-20 gap-4'>
-        {riverInfo}
-      </div>      
+
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <HomePage 
+            allRivers={allRivers}
+            />
+          }
+        />
+        <Route 
+          path='/details/:id'
+          element={
+            <DetailsPage 
+            riverData={detailPage}
+            />
+          }
+        />
+      </Routes>
+
       <Footer />
-    </body>
+    </>
   )
 }
 
