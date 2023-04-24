@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { getData } from "../../../utils/api"
+import { defineConditions } from "../../../utils/api"
 
 export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeights, conditions }) {
 
@@ -44,6 +45,7 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
                         obj.perfectHigh = perfectHigh,
                         obj.highHigh = highHigh,
                         obj.tooHighHigh = tooHighHigh
+                        obj.conditions = defineConditions(obj.height, goodLow, goodHigh, perfectHigh, highHigh, tooHighHigh)
                     }
                     // console.log(obj)
                     return obj
@@ -52,21 +54,23 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
         }
     }, [])
 
-    // console.log(riverData)
-
-    let detailsContent
-    if (riverData === undefined) {
-        detailsContent = <p>Loading...</p>
-    } else (
-        detailsContent = <p className="text-center text-blue-800 text-xl font-medium">{riverData.name}</p>
-    )
-    console.log(riverData)
+    let detailsContent = <p>Loading...</p>
+    if (riverData) {
+        detailsContent = <div className="w-5/6">
+            <p className="text-center text-blue-800 text-xl font-medium">{riverData.name}</p>
+            <div className={`border-2 border-${riverData.conditions.color} rounded-md`}>
+                <p className={`text-center text-${riverData.conditions.color}`}>{riverData.conditions.fullDescription}</p>
+                
+            </div>
+        </div>
+    }
+    console.log(conditions)
     
     return (
-        <>
+        <div className="flex justify-center">
             
         {detailsContent}
        
-        </>
+        </div>
     )
 }

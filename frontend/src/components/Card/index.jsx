@@ -47,8 +47,7 @@ export default function Card({ riverData, setDetailPage, setConditions }) {
 
         </div>
     }
-    console.log(conditions)
-
+    
     return (
         <Link to={`/details/${riverData.siteCode}`} onClick={() => {setConditions(conditions), setDetailPage(riverData)}}>
             {renderCard}
