@@ -1,11 +1,121 @@
+// .then((res) => {
+//     // console.log(res)
+//     let arr = []
+//     for (let i = 0; i < res.value.timeSeries.length; i += 1) {
+//     // a bunch of logic to get the rivery name capitalized from the object's "siteName" key
+//     let nameVar = res.value.timeSeries[i].sourceInfo.siteName.toLowerCase()
+//     const index = nameVar.indexOf("river")
+//     let name = nameVar.slice(0, index + 5).split(" ")
+//     for (let x = 0; x < name.length; x++) {
+//         name[x] = name[x].charAt(0).toUpperCase() + name[x].substring(1)
+//     }
+//     name = name.join(" ")
+//     let goodLow, goodHigh, perfectHigh, highHigh, tooHighHigh
+//     staticGaugeHeights.forEach((q) => {
+//         if (q.name === name) {
+//         goodLow = q.goodLow
+//         goodHigh = q.goodHigh
+//         perfectHigh = q.perfectHigh
+//         highHigh = q.highHigh
+//         tooHighHigh = q.tooHighHigh
+//         }
+//     })
+//     arr.push( {
+//         "name": name,
+//         "siteCode": res.value.timeSeries[i].sourceInfo.siteCode[0].value,
+//         "siteName": res.value.timeSeries[i].sourceInfo.siteName,
+//         "latitude": res.value.timeSeries[i].sourceInfo.geoLocation.geogLocation.latitude,
+//         "longitude": res.value.timeSeries[i].sourceInfo.geoLocation.geogLocation.longitude,
+//         "flow": parseInt(res.value.timeSeries[i].values[0].value[0].value), 
+//         "height": parseInt(res.value.timeSeries[i += 1].values[0].value[0].value),
+//         "goodLow": goodLow,
+//         "goodHigh": goodHigh,
+//         "perfectHigh": perfectHigh,
+//         "highHigh": highHigh,
+//         "tooHighHigh": tooHighHigh
+//     },)
+//     }
+//     console.log(arr[0])
+
+//     arr = arr[0]
+//     return arr
+// })
+//     .then(res => setDetailPage(res))
+// }
+// }, [])
 
 
-export default function DetailsPage({ riverData }) {
+import { useEffect } from "react"
+import { useParams } from "react-router-dom"
+import { getData } from "../../../utils/api"
 
+export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeights }) {
+
+    const {id} = useParams()
+   
+    useEffect(() => {
+        if (!riverData) {
+            getData(`https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=${id}&parameterCd=00060,00065&siteStatus=all`)
+                .then((res) => {
+                    // console.log(res)
+                    let obj = {}
+                    for (let i = 0; i < res.value.timeSeries.length; i += 1) {
+                    // a bunch of logic to get the rivery name capitalized from the object's "siteName" key
+                    let nameVar = res.value.timeSeries[i].sourceInfo.siteName.toLowerCase()
+                    const index = nameVar.indexOf("river")
+                    let name = nameVar.slice(0, index + 5).split(" ")
+                    for (let x = 0; x < name.length; x++) {
+                        name[x] = name[x].charAt(0).toUpperCase() + name[x].substring(1)
+                    }
+                    name = name.join(" ")
+                    let goodLow, goodHigh, perfectHigh, highHigh, tooHighHigh
+                    staticGaugeHeights.forEach((q) => {
+                        if (q.name === name) {
+                        goodLow = q.goodLow
+                        goodHigh = q.goodHigh
+                        perfectHigh = q.perfectHigh
+                        highHigh = q.highHigh
+                        tooHighHigh = q.tooHighHigh
+                        }
+                    })
+                   
+                        obj.name = name,
+                        obj.siteCode = res.value.timeSeries[i].sourceInfo.siteCode[0].value,
+                        obj.siteName = res.value.timeSeries[i].sourceInfo.siteName,
+                        obj.latitude = res.value.timeSeries[i].sourceInfo.geoLocation.geogLocation.latitude,
+                        obj.longitude = res.value.timeSeries[i].sourceInfo.geoLocation.geogLocation.longitude,
+                        obj.flow = parseInt(res.value.timeSeries[i].values[0].value[0].value), 
+                        obj.height = parseInt(res.value.timeSeries[i += 1].values[0].value[0].value),
+                        obj.goodLow = goodLow,
+                        obj.goodHigh = goodHigh,
+                        obj.perfectHigh = perfectHigh,
+                        obj.highHigh = highHigh,
+                        obj.tooHighHigh = tooHighHigh
+                    }
+                    console.log(obj)
+
+                    
+                    return obj
+                })
+                    .then(res => setDetailPage(res))
+        }
+    }, [])
+
+    // console.log(riverData)
+
+    let detailsContent
+    if (riverData === undefined) {
+        detailsContent = <p>Loading...</p>
+    } else (
+        detailsContent = <p>{riverData.name}</p>
+    )
+    console.log(riverData)
+    
     return (
         <>
             
-        { riverData ? <p>{riverData.name}</p> : <p>Loading...</p>}
+        {detailsContent}
+       
         </>
     )
 }

@@ -10,7 +10,7 @@ export default function NavBar() {
         <nav className="relative flex flex-wrap items-center justify-between py-3 mb-3 border-b-2 border-blue-200">
         <div className="container mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-            <Link to="#" >
+            <Link to="/" >
                 <span
                 className="text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-blue-800 font-serif text-2xl"
                 >

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import axios from 'axios'
+import { getData } from '../../../utils/api'
 import NavBar from '../NavBar'
 import Footer from '../Footer'
 import Card from '../Card'
@@ -12,21 +12,6 @@ function App() {
   const [riverData, setRiverData] = useState([])
   const [detailPage, setDetailPage] = useState()
   
-
-  const getData = async (string) => {
-    try {
-      const res = await axios.get(string)
-      const {data} = res
-      // console.log(data.value.timeSeries[0].values[0].value[0].value)
-      // console.log(data.value.timeSeries[1].values[0].value[0].value)
-      // console.log(data.value.timeSeries[2].values[0].value[0].value)
-      // console.log(data.value.timeSeries[3].values[0].value[0].value)
-      return data
-
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   let staticGaugeHeights = [
     {   
@@ -98,7 +83,7 @@ function App() {
       .then(res => setRiverData(res))
   }, [])
 
-  console.log(riverData)
+  // console.log(riverData)
 
   let allRivers = <p>River data loading...</p>
   if (Object.keys(riverData).length > 0){
@@ -132,6 +117,8 @@ function App() {
           element={
             <DetailsPage 
             riverData={detailPage}
+            setDetailPage={setDetailPage}
+            staticGaugeHeights={staticGaugeHeights}
             />
           }
         />
