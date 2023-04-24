@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom"
 
-export default function Card({ riverData, setDetailPage }) {
+export default function Card({ riverData, setDetailPage, setConditions }) {
+    
+
 
     let conditions
-
     if (riverData.height <= riverData.goodLow ) {
         // console.log("too low")
         conditions = {description: "Too Low", color: "blue-950", fullDescription: "The river is too low to fish. Stay home."}
@@ -46,10 +47,10 @@ export default function Card({ riverData, setDetailPage }) {
 
         </div>
     }
-
+    console.log(conditions)
 
     return (
-        <Link to={`/details/${riverData.siteCode}`} onClick={() => setDetailPage(riverData)}>
+        <Link to={`/details/${riverData.siteCode}`} onClick={() => {setConditions(conditions), setDetailPage(riverData)}}>
             {renderCard}
         </Link>
     )

@@ -11,6 +11,7 @@ import HomePage from '../HomePage'
 function App() {
   const [riverData, setRiverData] = useState([])
   const [detailPage, setDetailPage] = useState()
+  const [conditions, setConditions] = useState()
   
 
   let staticGaugeHeights = [
@@ -93,6 +94,7 @@ function App() {
             key={i}  
             riverData={river}
             setDetailPage={setDetailPage}
+            setConditions={setConditions}
           />
         )
   }
@@ -119,6 +121,7 @@ function App() {
             riverData={detailPage}
             setDetailPage={setDetailPage}
             staticGaugeHeights={staticGaugeHeights}
+            conditions={conditions}
             />
           }
         />
