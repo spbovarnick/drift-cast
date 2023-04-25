@@ -7,8 +7,8 @@ export default function ReportSection({ siteCode }) {
     const [createFormData, setCreateFormData] = useState({
         siteCode: siteCode,
         userName: '',
-        tripDate: undefined,
-        tripTime: undefined,
+        tripDate: '',
+        tripTime: '',
         report: '',
         image: undefined,
     })
@@ -32,10 +32,10 @@ export default function ReportSection({ siteCode }) {
         setCreateFormData({
             siteCode: siteCode,
             userName: '',
-            tripDate: undefined,
-            tripTime: undefined,
+            tripDate: "",
+            tripTime: "",
             report: '',
-            image: undefined,
+            image: "",
         })
         setFile(undefined)
     }
@@ -53,13 +53,15 @@ export default function ReportSection({ siteCode }) {
             for (const [key, value] of Object.entries(createFormData)) {
                 formData.append(key, value)
             }
-            formData.append("image", file)
+            formData.set("image", file)
+            console.log(formData.get("image"))
             postReport(formData)
         // how to handle if form does not include image
         } else if (!file) {
             postReport(createFormData)
         }
         submissionReset()
+        refreshReports()
     }
 
     let maxDate = new Date().toISOString().split("T")[0];
@@ -69,7 +71,7 @@ export default function ReportSection({ siteCode }) {
     let reportElements = [<p key="0">No reports yet.</p>]
     if (reports.length > 0) {
         reportElements = reports.map(report => {
-            return <Report key={report._id} report={report} maxDate={maxDate} maxTime={maxTime} />
+            return <Report key={report._id} report={report} refreshReports={refreshReports} maxDate={maxDate} maxTime={maxTime} />
         })
     }
 

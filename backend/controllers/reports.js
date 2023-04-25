@@ -105,62 +105,60 @@ router.post('/', upload.single('image'), async (req, res) => {
 // Update Route (PUT)
 router.put('/:id', upload.single('image'), async (req, res) => {
     if (req.file) {
-        console.log('file')
-    } else {
-        console.log('none')
+        // load file to memory
+        req.file.buffer 
+        // generate random name
+        const imageName = randomImageName()
+        // instantiate new PutObjecCommand object with
+        // S3 bucket credentials and file name
+        const command = new PutObjectCommand({
+            Bucket: bucketName,
+            Key: imageName,
+            Body: req.file.buffer,
+            ContentType: req.file.mimetype,
+        })
+        // match image field value to S3 file name
+        req.body.image = imageName
+        try {
+            // send file to S3 bucket
+            await s3.send(command)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            // send report object to MongoDB
+            db.Report.findByIdAndUpdate(
+                req.params.id,
+                req.body,
+                { new: true }
+            )
+                .then(report => res.json(report))
+    }} else {
+        db.Report.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        )
+            .then(report => res.json(report))
     }
-    // if (req.file) {
-    //     // load filed to memory
-        
-    //     req.file.buffer 
-    //     // generate random name
-    //     const imageName = randomImageName()
-    //     // instantiate new PutObjecCommand object with
-    //     // S3 bucket credentials and file name
-    //     const command = new PutObjectCommand({
-    //         Bucket: bucketName,
-    //         Key: imageName,
-    //         Body: req.file.buffer,
-    //         ContentType: req.file.mimetype,
-    //     })
-    //     // match image field value to S3 file name
-    //     req.body.image = imageName
-    //     try {
-    //         // send file to S3 bucket
-    //         await s3.send(command)
-    //     } catch (error) {
-    //         console.log(error)
-    //     } finally {
-    //         // send report object to MongoDB
-    //         db.Report.findByIdAndUpdate(
-    //             req.params.id,
-    //             req.body,
-    //             { new: true }
-    //         )
-    //             .then(report => res.json(report))
-    // }} else {
-    //     db.Report.findByIdAndUpdate(
-    //         req.params.id,
-    //         req.body,
-    //         { new: true }
-    //     )
-    //         .then(report => res.json(report))
-    // }
 })
 
 // Destroy route (DELETE)
 router.delete('/:id', async (req, res) => {
+
     const report = await db.Report.findOne({ _id: req.params.id })
-    
-    const command = new DeleteObjectCommand({
-        Bucket: bucketName,
-        Key: report.image
-    })
-    await s3.send(command)
+    if (report.image){
+        const command = new DeleteObjectCommand({
+            Bucket: bucketName,
+            Key: report.image
+        })
+        await s3.send(command)
+        await db.Report.findByIdAndRemove(req.params.id)
+            .then(report => res.send('deleted'))
+    } else {
+        await db.Report.findByIdAndRemove(req.params.id)
+            .then(report => res.send('deleted'))
+    }
 
-
-    await db.Report.findByIdAndRemove(req.params.id)
-        .then(report => res.send('deleted'))
 })
 
 

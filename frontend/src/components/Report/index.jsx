@@ -1,18 +1,17 @@
 import { useState } from "react"
-import { updateReport } from "../../../utils/backend"
+import { updateReport, deleteReport } from "../../../utils/backend"
 
-export default function Report({ report, maxDate, maxTime }) {
+export default function Report({ report, maxDate, maxTime, refreshReports }) {
     const [file, setFile] = useState()
     const [showUpdateForm, setShowUpdateForm] = useState(false)
     const [updateFormData, setUpdateFormData] = useState({
         userName: report.userName,
-        tripDate: undefined,
-        tripTime: undefined,
+        tripDate: "",
+        tripTime: "",
         report: report.report,
-        // image: report.image,
+        image: report.image,
     })
 
-    console.log(report.image)
 
     const handleInputChange = (event) => {
         setUpdateFormData({
@@ -26,16 +25,13 @@ export default function Report({ report, maxDate, maxTime }) {
         event.preventDefault()
         setShowUpdateForm(false)
         if (file) {
-            const formData = new FormData()
-            console.log(file)
-            console.log(updateFormData)
-
+            const uFormData = new FormData()
+            // formData.append("test", "value")
             for (const [key, value] of Object.entries(updateFormData)) {
-                formData.append(key, value)
+                uFormData.append(key, value)
             }
-            formData.set("image", file)
-            console.log(formData)
-            updateReport(formData, report._id)
+            uFormData.set("image", file)
+            updateReport(uFormData, report._id)
         // how to handle if form does not include image
         } else if (!file) {
             console.log(updateFormData)
@@ -44,14 +40,18 @@ export default function Report({ report, maxDate, maxTime }) {
     }
 
     let reportElement =
-        <div className="">
+        <div className="border-2">
             <p className="">{report.userName}</p>
             <p className="">{report.report}</p>
+            <img src={report.image}/>
             <div>
                 <button
                     onClick={() => {setShowUpdateForm(true)}}
                     className=""
                 >Update Report</button>
+                <button
+                    onClick={() => {deleteReport(report._id).then(() => refreshReports() )}}
+                >Delete</button>
             </div>
         </div>
 
@@ -87,12 +87,12 @@ export default function Report({ report, maxDate, maxTime }) {
                     name="report"
                     value={updateFormData.report}
                 />
-                {/* <input 
+                <input 
                     type="file" 
                     accept="image/*"
                     name="image"
                     onChange={e => setFile(e.target.files[0])}
-                /> */}
+                />
                 <button type="Submit">Submit Report</button>
             </form>
     }

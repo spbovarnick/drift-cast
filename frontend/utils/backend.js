@@ -12,11 +12,11 @@ export const postReport = async (report) => {
             report, 
             { headers: {'Content-Type': 'multipart/form-data'}}
         )
-        console.log(data)
+        console.log('image', data)
         return data
     } else if (!report.image) {
         const { data } = await axios.post('/api/reports', report)
-        console.log(data)
+        console.log("no image", data)
         return data
     }
 }
@@ -33,7 +33,11 @@ export const updateReport = async (report, id) => {
         return data
     } else if (!report.image) {
         console.log(`without image: ${report.image}`)
-        const { data } = await axios.put(`/api/reports/${id}`)
+        const { data } = await axios.put(`/api/reports/${id}`, report)
         return data
     }
+}
+
+export const  deleteReport = async (id) => {
+    const { data } = await axios.delete(`/api/reports/${id}`)
 }
