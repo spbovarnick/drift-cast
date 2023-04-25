@@ -9,7 +9,7 @@ export default function Report({ report, maxDate, maxTime }) {
         tripDate: undefined,
         tripTime: undefined,
         report: report.report,
-        image: report.image,
+        // image: report.image,
     })
 
     console.log(report.image)
@@ -21,7 +21,7 @@ export default function Report({ report, maxDate, maxTime }) {
         })
     }
     // console.log(updateFormData.image)
-    console.log((updateFormData))
+    // console.log((updateFormData))
     const handleSubmit = (event) => {
         event.preventDefault()
         setShowUpdateForm(false)
@@ -87,12 +87,12 @@ export default function Report({ report, maxDate, maxTime }) {
                     name="report"
                     value={updateFormData.report}
                 />
-                <input 
+                {/* <input 
                     type="file" 
                     accept="image/*"
                     name="image"
                     onChange={e => setFile(e.target.files[0])}
-                />
+                /> */}
                 <button type="Submit">Submit Report</button>
             </form>
     }
