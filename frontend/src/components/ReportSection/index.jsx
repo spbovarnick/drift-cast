@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { postReport } from "../../../utils/backend";
+import { postReport, getReports } from "../../../utils/backend";
 
-export default function ReportSection() {
+export default function ReportSection({ siteCode }) {
     const [file, setFile] = useState()
     const [createFormData, setCreateFormData] = useState({
         userName: '',
@@ -9,6 +9,12 @@ export default function ReportSection() {
         tripTime: '',
         report: '',
         image: undefined,
+    })
+    const [reports, setReports] = useState([])
+
+    useEffect(() => {
+        getReports(siteCode)
+            .then(reports => setReports([...reports]))
     })
 
     const handleInputChange = (event) => {
@@ -32,6 +38,7 @@ export default function ReportSection() {
 
     const handleSubmit = (event) => {
         event.preventDefault()
+        // how to handle if report includes image
         if (file) {
             const formData = new FormData()
             for (const [key, value] of Object.entries(createFormData)) {
@@ -40,6 +47,7 @@ export default function ReportSection() {
             formData.append("image", file)
             postReport(formData)
             submissionReset()
+        // how to handle if form does not include image
         } else if (!file) {
             postReport({...createFormData})
             submissionReset()
@@ -49,6 +57,8 @@ export default function ReportSection() {
     let maxDate = new Date().toISOString().split("T")[0];
     let maxTime = new Date().toISOString().split("T")[1].split(".")[0];
   
+    
+
     return (
         <form onSubmit={handleSubmit}>
             <input 
@@ -87,6 +97,7 @@ export default function ReportSection() {
                 onChange={e => setFile(e.target.files[0])}
             />
             <button type="Submit">Submit Report</button>
+            {reportElements}
         </form>
     )
 }

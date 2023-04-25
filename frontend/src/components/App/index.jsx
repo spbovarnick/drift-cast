@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { getData } from '../../../utils/api'
-import { defineConditions } from '../../../utils/api'
 import NavBar from '../NavBar'
 import Footer from '../Footer'
 import Card from '../Card'
@@ -93,7 +92,6 @@ function App() {
             key={i}  
             riverData={river}
             setDetailPage={setDetailPage}
-            conditions={conditions}
             setConditions={setConditions}
           />
         )
@@ -118,11 +116,11 @@ function App() {
           path='/details/:id'
           element={
             <DetailsPage 
-            riverData={detailPage}
-            setDetailPage={setDetailPage}
-            staticGaugeHeights={staticGaugeHeights}
-            setConditions={setConditions}
-            conditions={conditions}
+              riverData={detailPage}
+              setDetailPage={setDetailPage}
+              staticGaugeHeights={staticGaugeHeights}
+              conditions={conditions}
+              setConditions={setConditions}
             />
           }
         />

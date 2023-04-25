@@ -1,6 +1,10 @@
 import axios from "axios";
 
-export async function postReport(report) {
+export const getReports = async (siteCode) => {
+    
+}
+
+export const postReport = async (report) => {
     console.log(report.image)
     if (report.image) {
         const { data } = await axios.post(

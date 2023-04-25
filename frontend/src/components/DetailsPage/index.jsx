@@ -54,12 +54,15 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
         }
     }, [riverData])
 
-    if (!conditions && riverData) {
-                setConditions(defineConditions(riverData.height, riverData.goodLow, riverData.goodHigh, riverData.perfectHigh, riverData.highHigh, riverData.tooHighHigh))
-            }
+    useEffect(() => {
+        if (!conditions && riverData) {
+            setConditions(defineConditions(riverData.height, riverData.goodLow, riverData.goodHigh, riverData.perfectHigh, riverData.highHigh, riverData.tooHighHigh))
+        }
+    }, [conditions, riverData, setConditions, defineConditions])
+
+   
 
     let detailsContent = <p>Loading...</p>
-    let reportElements
     if (riverData && conditions) {
         detailsContent = <div className="w-5/6 ">
             <p className="text-center text-blue-800 text-xl font-medium">{riverData.name}</p>
@@ -90,9 +93,7 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
                 </div>
             </div>
         </div>;
-        reportElements = <ReportSection />
     }
-    // console.log(conditions)
     
     return (
         <div>
@@ -100,7 +101,7 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
             
         {detailsContent}
         </div>
-        { reportElements }
+        {/* { riverData && conditions ? <ReportSection siteCode={riverData.siteCode}/> : null } */}
         </div>
     )
 }

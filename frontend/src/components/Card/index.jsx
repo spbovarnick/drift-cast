@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom"
 import { defineConditions } from "../../../utils/api"
 
-export default function Card({ riverData, setDetailPage, setConditions, conditions }) {
+export default function Card({ riverData, setDetailPage, setConditions}) {
+    
     
     
     let renderCard = <p>River data is loading...</p>
+    let conditions
     if (riverData) {
+        conditions = defineConditions(riverData.height, riverData.goodLow, riverData.goodHigh, riverData.perfectHigh, riverData.highHigh, riverData.tooHighHigh)
         renderCard = <div className={`border-2 rounded-md border-${conditions.color} w-64 h-auto md:h-96  md:w-[36rem] p-4`}>
             <p className={`mb-4 text-blue-800 font-medium text-lg text-center`}>{riverData.name}</p>
             <div className="flex flex-col md:flex-row h-4/5">
@@ -22,8 +25,8 @@ export default function Card({ riverData, setDetailPage, setConditions, conditio
                     <p className="mt-4 pl-4">{conditions.fullDescription}</p>
                 </div>
             </div>
-
-        </div>
+        </div>;
+        
     }
     
     return (
