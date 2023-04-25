@@ -101,7 +101,7 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
             
         {detailsContent}
         </div>
-        {/* { riverData && conditions ? <ReportSection siteCode={riverData.siteCode}/> : null } */}
+        { riverData && <ReportSection siteCode={riverData.siteCode}/> }
         </div>
     )
 }

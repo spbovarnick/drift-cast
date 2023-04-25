@@ -35,6 +35,21 @@ const s3 = new S3Client({
 /* Routes
 ------------------------------ */ 
 // Index route (GET), displays all
+router.get('/river/:siteCode', async function(req, res) {
+    const reports = await db.Report.find({ siteCode: req.params.siteCode })
+    for (const report of reports) {
+        if (report.image) {
+            const command = new GetObjectCommand({
+                Bucket: bucketName,
+                Key: report.image,
+            });
+            const url = await getSignedUrl(s3, command, { expiresIn: 604799 });
+            report.image = url
+        } 
+    }
+    res.json(reports)
+})
+
 router.get('/', async function(req, res) {
     const reports = await db.Report.find({ })
     for (const report of reports){

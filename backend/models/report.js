@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const reportSchema = new mongoose.Schema({
+    siteCode: {
+        type: Number,
+        required: true
+    },
     userName: {
         type: String,
         required: true
