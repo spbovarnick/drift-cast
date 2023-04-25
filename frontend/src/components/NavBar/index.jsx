@@ -32,7 +32,7 @@ export default function NavBar() {
             }
           >
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-                <Link to='#'>
+                <Link to='/'>
                     <li className="nav-item">
                         <span
                         className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75"

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 export default function Footer() {
     return (
-        <footer className="w-full border-t-2 border-blue-200 bg-white sticky bottom-0 font-serif text-blue-800">
+        <footer className="w-full border-t-2 border-blue-200 bg-white absolute top-screen font-serif text-blue-800">
             <div className="flex justify-center h-10 p-2">
                 <Link to="#">
                     <span className="p-2">Home</span>

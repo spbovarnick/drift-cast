@@ -2,8 +2,9 @@ import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { getData } from "../../../utils/api"
 import { defineConditions } from "../../../utils/api"
+import ReportSection from "../ReportSection"
 
-export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeights, conditions }) {
+export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeights, conditions, setConditions }) {
 
     const {id} = useParams()
    
@@ -32,7 +33,6 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
                         tooHighHigh = q.tooHighHigh
                         }
                     })
-                   
                         obj.name = name,
                         obj.siteCode = res.value.timeSeries[i].sourceInfo.siteCode[0].value,
                         obj.siteName = res.value.timeSeries[i].sourceInfo.siteName,
@@ -45,32 +45,62 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
                         obj.perfectHigh = perfectHigh,
                         obj.highHigh = highHigh,
                         obj.tooHighHigh = tooHighHigh
-                        obj.conditions = defineConditions(obj.height, goodLow, goodHigh, perfectHigh, highHigh, tooHighHigh)
                     }
                     // console.log(obj)
                     return obj
                 })
-                    .then(res => setDetailPage(res))
+                    .then((res) => setDetailPage(res))
+                        
         }
-    }, [])
+    }, [riverData])
+
+    if (!conditions && riverData) {
+                setConditions(defineConditions(riverData.height, riverData.goodLow, riverData.goodHigh, riverData.perfectHigh, riverData.highHigh, riverData.tooHighHigh))
+            }
 
     let detailsContent = <p>Loading...</p>
-    if (riverData) {
-        detailsContent = <div className="w-5/6">
+    let reportElements
+    if (riverData && conditions) {
+        detailsContent = <div className="w-5/6 ">
             <p className="text-center text-blue-800 text-xl font-medium">{riverData.name}</p>
-            <div className={`border-2 border-${riverData.conditions.color} rounded-md`}>
-                <p className={`text-center text-${riverData.conditions.color}`}>{riverData.conditions.fullDescription}</p>
-                
+            <div className={`p-4`}>
+                <p className={`mb-2 text-${conditions.color} text-center font-medium text-lg`}>{conditions.fullDescription}</p>
+                <div className="flex flex-col md:flex-row h-4/5">
+                    <iframe
+                        className="mr-2 w-full"
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_API_KEY}&q=${riverData.latitude},${riverData.longitude}&maptype=satellite&zoom=7`}
+                    />
+                    <div className="flex flex-col  w-full">
+                        <div className={`self-center mt-4 md:mt-0 ml-2 h-48 w-48 border-2 border-${conditions.color} rounded-full bg-${conditions.color} flex justify-center items-center`}>
+                            <p className="uppercase">{conditions.description}</p>
+                        </div>
+                        <p className="p-2 mt-4 text-center underline underline-offset-4 text-blue-800 border-2 rounded-md border-lime-400">{conditions.fullDescription}</p>
+                    </div>
+                </div>
+                <div className="mt-4">
+                    <div className="text-blue-800">
+                        <p className="mb-2"><span className="font-medium">Gauge height: </span>{riverData.height} feet</p>
+                        <p><span className="font-medium">Flow: </span>{riverData.flow} cfs</p>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
             </div>
-        </div>
+        </div>;
+        reportElements = <ReportSection />
     }
-    console.log(conditions)
+    // console.log(conditions)
     
     return (
-        <div className="flex justify-center">
+        <div>
+        <div className="flex flex-wrap justify-center">
             
         {detailsContent}
-       
+        </div>
+        { reportElements }
         </div>
     )
 }

@@ -55,31 +55,31 @@ router.get('/', async function(req, res) {
 router.post('/', upload.single('image'), async (req, res) => {
     // console.log("req.body", req.body)
     // console.log("req.file", req.file)
-
-    // load filed to memory
-    req.file.buffer 
-
-    // generate random name
-    const imageName = randomImageName()
-
-    // instantiate new PutObjecCommand object with
-    // S3 bucket credentials and file name
-    const command = new PutObjectCommand({
-        Bucket: bucketName,
-        Key: imageName,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype,
-    })
-
-    // match image field value to S3 file name
-    req.body.image = imageName
-
-    try {
-        // send file to S3 bucket
-        await s3.send(command)
-    } catch (error) {
-        console.log(error)
-    } finally {
+    if (req.file) {
+        // load filed to memory
+        req.file.buffer 
+        // generate random name
+        const imageName = randomImageName()
+        // instantiate new PutObjecCommand object with
+        // S3 bucket credentials and file name
+        const command = new PutObjectCommand({
+            Bucket: bucketName,
+            Key: imageName,
+            Body: req.file.buffer,
+            ContentType: req.file.mimetype,
+        })
+        // match image field value to S3 file name
+        req.body.image = imageName
+        try {
+            // send file to S3 bucket
+            await s3.send(command)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            // send report object to MongoDB
+            db.Report.create(req.body)
+                .then(report => res.json(report))
+    }} else {
         // send report object to MongoDB
         db.Report.create(req.body)
             .then(report => res.json(report))

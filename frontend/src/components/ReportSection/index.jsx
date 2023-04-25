@@ -1,4 +1,3 @@
-import { toFormData } from "axios";
 import { useState } from "react";
 import { postReport } from "../../../utils/backend";
 
@@ -19,14 +18,8 @@ export default function ReportSection() {
         })
     }
   
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        const formData = new FormData()
-        for (const [key, value] of Object.entries(createFormData)) {
-            formData.append(key, value)
-        }
-        formData.append("image", file)
-        postReport(formData)
+
+    const submissionReset = () => {
         setCreateFormData({
             userName: '',
             tripDate: '',
@@ -35,6 +28,22 @@ export default function ReportSection() {
             image: undefined,
         })
         setFile(undefined)
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        if (file) {
+            const formData = new FormData()
+            for (const [key, value] of Object.entries(createFormData)) {
+                formData.append(key, value)
+            }
+            formData.append("image", file)
+            postReport(formData)
+            submissionReset()
+        } else if (!file) {
+            postReport({...createFormData})
+            submissionReset()
+        }
     }
 
     let maxDate = new Date().toISOString().split("T")[0];

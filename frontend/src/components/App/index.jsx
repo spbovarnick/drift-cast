@@ -42,32 +42,6 @@ function App() {
     }
   ]
 
-  // const defineConditions = async (height, goodLow, goodHigh, perfectHigh, highHigh, tooHighHigh) => {
-  //   let conditions
-  //   if (height <= goodLow ) {
-  //       // console.log("too low")
-  //       conditions = {description: "Too Low", color: "blue-950", fullDescription: "The river is too low to fish. Stay home."}
-  //     } else if (goodLow < height && height < goodHigh ) {
-  //       // console.log("good")
-  //       conditions = {description: "Good", color: "teal-800", fullDescription: "The level is good, but lower than perfect"}
-  //     } else if (goodHigh < height && height <= perfectHigh  ) {
-  //       // console.log("perfect")
-  //       conditions = {description: "Perfect", color: "green-600", fullDescription: "The river is at the perfect level. Tight lines!"}
-  //     } else if (perfectHigh < height && height <= highHigh ) {
-  //       // console.log("high")
-  //       conditions = {description: "High", color: "yellow-400", fullDescription: "The river is high, but fishable."}
-  //     } else if (highHigh < height && height <= tooHighHigh ) {
-  //       // console.log("too high")
-  //       conditions = {description: "Too high", color: "orange-500", fullDescription: "The river is too high, stay home or proceed with caution."}
-  //     } else if (tooHighHigh < height) {
-  //       // console.log("serious danger")
-  //       conditions = {description: "Serious Danger", color: "red-600", fullDescription: "Flood conditions, stay home."}
-  //   }
-  //   console.log(conditions)
-  //   return conditions
-  // }
-
-
   useEffect(() => {
   getData("https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=14142500,%2014301500,%2014210000&parameterCd=00060,00065&siteStatus=all")
     .then((res) => {
@@ -104,10 +78,8 @@ function App() {
           "perfectHigh": perfectHigh,
           "highHigh": highHigh,
           "tooHighHigh": tooHighHigh,
-          "conditions": defineConditions(height, goodLow, goodHigh, perfectHigh, highHigh, tooHighHigh),
         },)
       }
-      
       return arr
     })
     .then(res => setRiverData(res))
@@ -121,6 +93,7 @@ function App() {
             key={i}  
             riverData={river}
             setDetailPage={setDetailPage}
+            conditions={conditions}
             setConditions={setConditions}
           />
         )
@@ -128,7 +101,7 @@ function App() {
     
 
   return (
-    <>
+    <div className='min-h-screen'>
       <NavBar />
 
 
@@ -148,6 +121,7 @@ function App() {
             riverData={detailPage}
             setDetailPage={setDetailPage}
             staticGaugeHeights={staticGaugeHeights}
+            setConditions={setConditions}
             conditions={conditions}
             />
           }
@@ -155,7 +129,7 @@ function App() {
       </Routes>
 
       <Footer />
-    </>
+    </div>
   )
 }
 

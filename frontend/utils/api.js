@@ -37,6 +37,5 @@ export const defineConditions = (height, goodLow, goodHigh, perfectHigh, highHig
       // console.log("serious danger")
       conditions = {description: "Serious Danger", color: "red-600", fullDescription: "Flood conditions, stay home."}
   }
-  console.log(conditions)
   return conditions
 }
