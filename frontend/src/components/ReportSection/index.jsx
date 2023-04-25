@@ -7,8 +7,8 @@ export default function ReportSection({ siteCode }) {
     const [createFormData, setCreateFormData] = useState({
         siteCode: siteCode,
         userName: '',
-        tripDate: '',
-        tripTime: '',
+        tripDate: undefined,
+        tripTime: undefined,
         report: '',
         image: undefined,
     })
@@ -32,8 +32,8 @@ export default function ReportSection({ siteCode }) {
         setCreateFormData({
             siteCode: siteCode,
             userName: '',
-            tripDate: '',
-            tripTime: '',
+            tripDate: undefined,
+            tripTime: undefined,
             report: '',
             image: undefined,
         })
@@ -69,7 +69,7 @@ export default function ReportSection({ siteCode }) {
     let reportElements = [<p key="0">No reports yet.</p>]
     if (reports.length > 0) {
         reportElements = reports.map(report => {
-            return <Report key={report._id} report={report} />
+            return <Report key={report._id} report={report} maxDate={maxDate} maxTime={maxTime} />
         })
     }
 

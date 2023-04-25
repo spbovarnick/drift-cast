@@ -103,13 +103,49 @@ router.post('/', upload.single('image'), async (req, res) => {
 })
 
 // Update Route (PUT)
-router.put('/:id', (req, res) => {
-    db.Report.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true }
-    )
-        .then(report => res.json(report))
+router.put('/:id', upload.single('image'), async (req, res) => {
+    if (req.file) {
+        console.log('file')
+    } else {
+        console.log('none')
+    }
+    // if (req.file) {
+    //     // load filed to memory
+        
+    //     req.file.buffer 
+    //     // generate random name
+    //     const imageName = randomImageName()
+    //     // instantiate new PutObjecCommand object with
+    //     // S3 bucket credentials and file name
+    //     const command = new PutObjectCommand({
+    //         Bucket: bucketName,
+    //         Key: imageName,
+    //         Body: req.file.buffer,
+    //         ContentType: req.file.mimetype,
+    //     })
+    //     // match image field value to S3 file name
+    //     req.body.image = imageName
+    //     try {
+    //         // send file to S3 bucket
+    //         await s3.send(command)
+    //     } catch (error) {
+    //         console.log(error)
+    //     } finally {
+    //         // send report object to MongoDB
+    //         db.Report.findByIdAndUpdate(
+    //             req.params.id,
+    //             req.body,
+    //             { new: true }
+    //         )
+    //             .then(report => res.json(report))
+    // }} else {
+    //     db.Report.findByIdAndUpdate(
+    //         req.params.id,
+    //         req.body,
+    //         { new: true }
+    //     )
+    //         .then(report => res.json(report))
+    // }
 })
 
 // Destroy route (DELETE)
