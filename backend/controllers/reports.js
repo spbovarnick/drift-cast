@@ -3,6 +3,7 @@ const router = express.Router()
 const db = require("../models")
 const multer  = require('multer')
 const crypto = require('crypto')
+const sharp = require('sharp')
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
@@ -44,7 +45,7 @@ router.get('/river/:siteCode', async function(req, res) {
                 Key: report.image,
             });
             const url = await getSignedUrl(s3, command, { expiresIn: 604799 });
-            report.image = url
+            report.imageUrl = url
         } 
     }
     res.json(reports)
@@ -68,11 +69,17 @@ router.get('/', async function(req, res) {
 
 // Create route (POST)
 router.post('/', upload.single('image'), async (req, res) => {
-    // console.log("req.body", req.body)
-    // console.log("req.file", req.file)
+    console.log("req.body", req.body)
+    console.log("req.file", req.file)
     if (req.file) {
         // load filed to memory
-        req.file.buffer 
+        const imgClean = await sharp(req.file.buffer)
+                            .resize({
+                                height: null,
+                                width: 720
+                            })
+                            .jpeg({ mozjpeg: true })
+                            .toBuffer()
         // generate random name
         const imageName = randomImageName()
         // instantiate new PutObjecCommand object with
@@ -80,11 +87,12 @@ router.post('/', upload.single('image'), async (req, res) => {
         const command = new PutObjectCommand({
             Bucket: bucketName,
             Key: imageName,
-            Body: req.file.buffer,
+            Body: imgClean,
             ContentType: req.file.mimetype,
         })
         // match image field value to S3 file name
         req.body.image = imageName
+        
         try {
             // send file to S3 bucket
             await s3.send(command)
@@ -106,7 +114,13 @@ router.post('/', upload.single('image'), async (req, res) => {
 router.put('/:id', upload.single('image'), async (req, res) => {
     if (req.file) {
         // load file to memory
-        req.file.buffer 
+        const imgClean = await sharp(req.file.buffer)
+                            .resize({
+                                height: null,
+                                width: 720
+                            })
+                            .jpeg({ mozjpeg: true })
+                            .toBuffer() 
         // generate random name
         const imageName = randomImageName()
         // instantiate new PutObjecCommand object with
@@ -114,7 +128,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
         const command = new PutObjectCommand({
             Bucket: bucketName,
             Key: imageName,
-            Body: req.file.buffer,
+            Body: imgClean,
             ContentType: req.file.mimetype,
         })
         // match image field value to S3 file name

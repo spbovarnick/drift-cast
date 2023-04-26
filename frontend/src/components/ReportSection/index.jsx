@@ -3,7 +3,7 @@ import { postReport, getReports } from "../../../utils/backend";
 import Report from "../Report";
 
 export default function ReportSection({ siteCode }) {
-    const [file, setFile] = useState()
+    const [file, setFile] = useState(false)
     const [createFormData, setCreateFormData] = useState({
         siteCode: siteCode,
         userName: '',
@@ -21,10 +21,18 @@ export default function ReportSection({ siteCode }) {
     }, [])
 
     const handleInputChange = (event) => {
-        setCreateFormData({
-            ...createFormData,
-            [event.target.name]: event.target.value,
-        })
+        if (event.target.name === "image") {
+            setCreateFormData({
+                ...createFormData,
+                [event.target.name]: event.target.files[0]
+            })
+            setFile(true)
+        } else {
+            setCreateFormData({
+                ...createFormData,
+                [event.target.name]: event.target.value,
+            })
+        }
     }
   
 
@@ -35,14 +43,16 @@ export default function ReportSection({ siteCode }) {
             tripDate: "",
             tripTime: "",
             report: '',
-            image: "",
+            image: undefined,
         })
-        setFile(undefined)
+        setFile(false)
     }
 
-    function refreshReports() {
+    async function refreshReports() {
         getReports(siteCode)
             .then(newReports => setReports(newReports))
+        // const newReports  = getReports(siteCode)
+        // return setReports({newReports})
     }
 
     const handleSubmit = (event) => {
@@ -53,8 +63,8 @@ export default function ReportSection({ siteCode }) {
             for (const [key, value] of Object.entries(createFormData)) {
                 formData.append(key, value)
             }
-            formData.set("image", file)
-            console.log(formData.get("image"))
+            // formData.set("image", file)
+            // console.log(formData.get("image"))
             postReport(formData)
         // how to handle if form does not include image
         } else if (!file) {
@@ -113,7 +123,7 @@ export default function ReportSection({ siteCode }) {
                     type="file" 
                     accept="image/*"
                     name="image"
-                    onChange={e => setFile(e.target.files[0])}
+                    onChange={handleInputChange}
                 />
                 <button type="Submit">Submit Report</button>
             </form>

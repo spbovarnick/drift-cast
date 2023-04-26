@@ -14,3 +14,5 @@
 - dotenv
 - axios
 - AWS S3
+- crypto
+- sharp

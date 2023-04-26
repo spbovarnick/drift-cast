@@ -2,12 +2,12 @@ import { useState } from "react"
 import { updateReport, deleteReport } from "../../../utils/backend"
 
 export default function Report({ report, maxDate, maxTime, refreshReports }) {
-    const [file, setFile] = useState()
+    const [file, setFile] = useState(false)
     const [showUpdateForm, setShowUpdateForm] = useState(false)
     const [updateFormData, setUpdateFormData] = useState({
         userName: report.userName,
-        tripDate: "",
-        tripTime: "",
+        tripDate: report.tripDate,
+        tripTime: report.tripTime,
         report: report.report,
         image: report.image,
     })
@@ -18,6 +18,7 @@ export default function Report({ report, maxDate, maxTime, refreshReports }) {
             ...updateFormData,
             [event.target.name]: event.target.value
         })
+        event.target.name === "image" && setFile(true)
     }
     // console.log(updateFormData.image)
     // console.log((updateFormData))
@@ -30,7 +31,6 @@ export default function Report({ report, maxDate, maxTime, refreshReports }) {
             for (const [key, value] of Object.entries(updateFormData)) {
                 uFormData.append(key, value)
             }
-            uFormData.set("image", file)
             updateReport(uFormData, report._id)
         // how to handle if form does not include image
         } else if (!file) {
@@ -43,7 +43,7 @@ export default function Report({ report, maxDate, maxTime, refreshReports }) {
         <div className="border-2">
             <p className="">{report.userName}</p>
             <p className="">{report.report}</p>
-            <img src={report.image}/>
+            <img className="w-80" src={report.imageUrl}/>
             <div>
                 <button
                     onClick={() => {setShowUpdateForm(true)}}
@@ -91,7 +91,7 @@ export default function Report({ report, maxDate, maxTime, refreshReports }) {
                     type="file" 
                     accept="image/*"
                     name="image"
-                    onChange={e => setFile(e.target.files[0])}
+                    onChange={handleInputChange}
                 />
                 <button type="Submit">Submit Report</button>
             </form>
