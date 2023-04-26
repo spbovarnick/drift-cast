@@ -49,8 +49,10 @@ export default function ReportSection({ siteCode }) {
     }
 
     async function refreshReports() {
-        getReports(siteCode)
-            .then(newReports => setReports(newReports))
+        setTimeout(() => {
+            getReports(siteCode)
+                .then(newReports => setReports(newReports))
+        }, 60000)
         // const newReports  = getReports(siteCode)
         // return setReports({newReports})
     }
