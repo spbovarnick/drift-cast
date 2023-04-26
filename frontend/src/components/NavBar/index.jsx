@@ -12,7 +12,7 @@ export default function NavBar() {
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <Link to="/" >
                 <span
-                className="text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-blue-800 font-serif text-2xl"
+                  className="hover:scale-125 hover:bg-blue-100 rounded-full p-2 transition-all text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-blue-800 font-serif text-2xl"
                 >
                 DriftCast
                 </span>
@@ -35,21 +35,21 @@ export default function NavBar() {
                 <Link to='/'>
                     <li className="nav-item">
                         <span
-                        className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75"
+                        className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
                         >Home</span>
                     </li>
                 </Link>    
                 <Link to="#">
                     <li className="nav-item">
                         <span
-                        className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75"
+                        className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
                         >Rivers</span>
                     </li>
                 </Link>
                 <Link to="#" >
                     <li className="nav-item">
                         <span
-                        className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75"
+                        className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
                         >About</span>
                     </li>
                 </Link>

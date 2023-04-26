@@ -97,7 +97,7 @@ function App() {
         )
   }
     
-  const buttonPsuedos = "hover:opacity-70 active:shadow-inner active:outline active:outline-2 outline-lime-800 transition-all active:opacity-100 bg-lime-400 font-medium rounded-full p-2 w-fit"
+  const buttonPsuedos = "hover:opacity-70 active:shadow-inner active:outline active:outline-2 outline-lime-800 transition-all active:opacity-100 bg-lime-400 font-medium rounded-full p-2 w-fit text-blue-800"
 
   return (
     <div className='min-h-screen'>
