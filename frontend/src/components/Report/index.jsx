@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { updateReport, deleteReport } from "../../../utils/backend"
 
-export default function Report({ report, maxDate, refreshReports }) {
+export default function Report({ report, getMaxDateTime, refreshReports, buttonPsuedos }) {
     const [file, setFile] = useState(false)
     const [showUpdateForm, setShowUpdateForm] = useState(false)
     const [updateFormData, setUpdateFormData] = useState({
@@ -51,10 +51,11 @@ export default function Report({ report, maxDate, refreshReports }) {
             <div>
                 <button
                     onClick={() => {setShowUpdateForm(true)}}
-                    className=""
+                    className={`${buttonPsuedos}`}
                 >Update Report</button>
                 <button
                     onClick={() => {deleteReport(report._id).then(() => refreshReports() )}}
+                    className={`${buttonPsuedos}`}
                 >Delete</button>
             </div>
         </div>
@@ -72,7 +73,7 @@ export default function Report({ report, maxDate, refreshReports }) {
                 />
                 <input 
                     type="date"
-                    max={maxDate}
+                    max={getMaxDateTime()}
                     onChange={handleInputChange}
                     name="tripDate"
                     value={updateFormData.tripDate}
@@ -97,7 +98,7 @@ export default function Report({ report, maxDate, refreshReports }) {
                     name="image"
                     onChange={handleInputChange}
                 />
-                <button type="Submit">Submit Report</button>
+                <button className={`${buttonPsuedos}`} type="Submit">Submit Report</button>
             </form>
     }
 

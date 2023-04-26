@@ -97,6 +97,7 @@ function App() {
         )
   }
     
+  const buttonPsuedos = "hover:opacity-70 active:shadow-inner active:outline active:outline-2 outline-lime-800 transition-all active:opacity-100 bg-lime-400 font-medium rounded-full p-2 w-fit"
 
   return (
     <div className='min-h-screen'>
@@ -121,6 +122,7 @@ function App() {
               staticGaugeHeights={staticGaugeHeights}
               conditions={conditions}
               setConditions={setConditions}
+              buttonPsuedos={buttonPsuedos}
             />
           }
         />

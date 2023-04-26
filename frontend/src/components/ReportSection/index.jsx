@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { postReport, getReports } from "../../../utils/backend";
 import Report from "../Report";
 
-export default function ReportSection({ siteCode }) {
+export default function ReportSection({ siteCode, buttonPsuedos }) {
     const [file, setFile] = useState(false)
     const [showForm, setShowForm] = useState(false)
     const [createFormData, setCreateFormData] = useState({
@@ -18,7 +18,6 @@ export default function ReportSection({ siteCode }) {
     useEffect(() => {
         getReports(siteCode)
             .then(reports => setReports([...reports]))
-                .then(() => getMaxDateTime())
     }, [])
 
     const toggleForm = () => {
@@ -78,20 +77,6 @@ export default function ReportSection({ siteCode }) {
         submissionReset()
     }
 
-    let maxDate = new Date()
-    
-    let reportElements = [<p key="0">No reports yet.</p>]
-    if (reports.length > 0) {
-        reportElements = reports.map(report => {
-            return <Report key={report._id} report={report} refreshReports={refreshReports} maxDate={maxDate} />
-        })
-    }
-
-    let toggleText = 'ADD REPORT'
-    if (showForm) {
-        toggleText = 'CLOSE'
-    }
-
     function getMaxDateTime() {
         const today = new Date();
         const year = today.getFullYear();
@@ -107,34 +92,56 @@ export default function ReportSection({ siteCode }) {
         seconds = seconds < 10 ? "0" + seconds : seconds;
         return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
     }
+    
+    let reportElements = [<p key="0">No reports yet.</p>]
+    if (reports.length > 0) {
+        reportElements = reports.map(report => {
+            return <Report 
+                key={report._id}
+                report={report}
+                refreshReports={refreshReports}
+                getMaxDateTime={getMaxDateTime}
+                buttonPsuedos={buttonPsuedos}
+                />
+        })
+    }
+
+    let toggleText = 'ADD REPORT'
+    if (showForm) {
+        toggleText = 'CLOSE'
+    }
+
+   
 
     return (
         <div className="mt-20 flex flex-wrap justify-center">
             <div className="w-5/6 max-w-screen-lg">
-                <div className="">
+                <div className="p-4">
                     <p className="text-lg text-center text-blue-800 font-bold">Angler Reports</p>
                     <button
                         onClick={toggleForm}
-                        className="text-blue-800 font-medium bg-lime-400 p-2 rounded-full"
+                        className={`${buttonPsuedos}`}
                     >{toggleText}</button>
                 </div>
                 { showForm && 
                     <form 
                         onSubmit={handleSubmit}
-                        className="flex flex-col text-blue-800"    
+                        className="flex flex-col text-blue-800 m-4"    
                     >
-                        <label>Username: </label>
-                        <input 
-                            className="rounded-md border-blue-400 w-1/3"
-                            required
-                            type="text"
-                            placeholder="Your username"
-                            onChange={handleInputChange}
-                            name="userName"
-                            value={createFormData.userName}
-                        />
-                        <div className="flex justify-around">
-                            <div className="flex flex-col">
+                        <div className="flex flex-col md:flex-row items-start md:justify-around">
+                            <div className="flex flex-col m-2">
+                                <label>Username: </label>
+                                <input 
+                                    className="rounded-md border-blue-400"
+                                    required
+                                    type="text"
+                                    placeholder="Your username"
+                                    onChange={handleInputChange}
+                                    name="userName"
+                                    value={createFormData.userName}
+                                />
+                            </div>
+                            <div className="flex flex-col m-2">
                                 <label>Trip date and time:</label>
                                 <input 
                                     className="rounded-md border-blue-400"
@@ -145,7 +152,7 @@ export default function ReportSection({ siteCode }) {
                                     value={createFormData.tripDate}
                                 />
                             </div>
-                            <div className="flex flex-col">
+                            <div className="flex flex-col m-2">
                                 <label>Gage Height:</label>
                                 <input 
                                     className="rounded-md border-blue-400"
@@ -157,26 +164,30 @@ export default function ReportSection({ siteCode }) {
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-col self-center w-2/3">
-                            <label>Trip report:</label>
-                            <textarea 
-                                className="rounded-md border-blue-400"
-                                required
-                                placeholder="Share your report"
-                                onChange={handleInputChange}
-                                name="report"
-                                value={createFormData.report}
-                            />
-                            <label>Photo:</label>
-                            <input 
-                                className="rounded-md border-blue-400"
-                                type="file" 
-                                accept="image/*"
-                                name="image"
-                                onChange={handleInputChange}
-                            />
+                        <div className="flex flex-col md:flex-row justify-around md:self-center w-full">
+                            <div className="flex flex-col w-5/6 max-w-lg m-2">
+                                <label>Trip report:</label>
+                                <textarea 
+                                    className="rounded-md border-blue-400 h-32"
+                                    required
+                                    placeholder="Share your report"
+                                    onChange={handleInputChange}
+                                    name="report"
+                                    value={createFormData.report}
+                                />
+                            </div>
+                            <div className="flex flex-col justify-end md:items-center">
+                                <label>Photo:</label>
+                                <input 
+                                    className="rounded-md border-blue-400 w-min"
+                                    type="file" 
+                                    accept="image/*"
+                                    name="image"
+                                    onChange={handleInputChange}
+                                />
+                            </div>
                         </div>
-                        <button className="self-end bg-lime-400 font-medium rounded-full p-2 w-fit" type="Submit">SUBMIT REPORT</button>
+                        <button className={`${buttonPsuedos} self-end my-4`} type="Submit">SUBMIT REPORT</button>
                     </form>
                 }
                 {reportElements}

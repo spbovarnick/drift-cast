@@ -4,7 +4,7 @@ import { getData } from "../../../utils/api"
 import { defineConditions } from "../../../utils/api"
 import ReportSection from "../ReportSection"
 
-export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeights, conditions, setConditions }) {
+export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeights, conditions, setConditions, buttonPsuedos }) {
 
     const {id} = useParams()
    
@@ -100,7 +100,10 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
             
         {detailsContent}
         </div>
-        { riverData && <ReportSection siteCode={riverData.siteCode}/> }
+        { riverData && <ReportSection 
+            siteCode={riverData.siteCode}
+            buttonPsuedos={buttonPsuedos}
+        /> }
         </div>
     )
 }
