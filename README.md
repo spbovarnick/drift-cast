@@ -16,3 +16,4 @@
 - AWS S3
 - crypto
 - sharp
+- @tailwindcss/forms

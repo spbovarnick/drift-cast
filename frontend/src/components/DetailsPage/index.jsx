@@ -64,10 +64,9 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
 
     let detailsContent = <p>Loading...</p>
     if (riverData && conditions) {
-        detailsContent = <div className="w-5/6 ">
+        detailsContent = <div className="w-5/6 max-w-screen-lg">
             <p className="text-center text-blue-800 text-xl font-medium">{riverData.name}</p>
             <div className={`p-4`}>
-                <p className={`mb-2 text-${conditions.color} text-center font-medium text-lg`}>{conditions.fullDescription}</p>
                 <div className="flex flex-col md:flex-row h-4/5">
                     <iframe
                         className="mr-2 w-full"
@@ -79,7 +78,7 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
                         <div className={`self-center mt-4 md:mt-0 ml-2 h-48 w-48 border-2 border-${conditions.color} rounded-full bg-${conditions.color} flex justify-center items-center`}>
                             <p className="uppercase">{conditions.description}</p>
                         </div>
-                        <p className="p-2 mt-4 text-center underline underline-offset-4 text-blue-800 border-2 rounded-md border-lime-400">{conditions.fullDescription}</p>
+                        <p className={`p-2 mt-4 text-center underline underline-offset-4 text-blue-800 font-medium border-4 rounded-md border-${conditions.color}`}>{conditions.fullDescription}</p>
                     </div>
                 </div>
                 <div className="mt-4">
