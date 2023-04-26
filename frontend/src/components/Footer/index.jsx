@@ -4,10 +4,10 @@ export default function Footer() {
     return (
         <footer className="w-full border-t-2 border-blue-200 bg-white absolute top-screen font-serif text-blue-800">
             <div className="flex justify-center h-10 p-2">
-                <Link to="#">
+                <Link to="/">
                     <span className="p-2">Home</span>
                 </Link>
-                <Link to="#">
+                <Link to="/about">
                     <span className="p-2">About</span>
                 </Link>
                 <Link to="#">

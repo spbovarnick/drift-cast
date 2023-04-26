@@ -6,6 +6,7 @@ import Footer from '../Footer'
 import Card from '../Card'
 import DetailsPage from '../DetailsPage'
 import HomePage from '../HomePage'
+import About from '../About'
 
 
 function App() {
@@ -111,6 +112,12 @@ function App() {
             <HomePage 
             allRivers={allRivers}
             />
+          }
+        />
+        <Route 
+          path='/about'
+          element={
+            <About />
           }
         />
         <Route 
