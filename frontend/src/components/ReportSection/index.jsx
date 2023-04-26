@@ -4,6 +4,7 @@ import Report from "../Report";
 
 export default function ReportSection({ siteCode }) {
     const [file, setFile] = useState(false)
+    const [showForm, setShowForm] = useState(false)
     const [createFormData, setCreateFormData] = useState({
         siteCode: siteCode,
         userName: '',
@@ -18,6 +19,10 @@ export default function ReportSection({ siteCode }) {
         getReports(siteCode)
             .then(reports => setReports([...reports]))
     }, [])
+
+    const toggleForm = () => {
+        setShowForm(!showForm)
+    }
 
     const handleInputChange = (event) => {
         if (event.target.name === "image") {
@@ -72,7 +77,7 @@ export default function ReportSection({ siteCode }) {
         submissionReset()
     }
 
-    let maxDate = new Date().toISOString().split("T")[0];
+    let maxDate = new Date()
     
     let reportElements = [<p key="0">No reports yet.</p>]
     if (reports.length > 0) {
@@ -81,49 +86,58 @@ export default function ReportSection({ siteCode }) {
         })
     }
 
-    
+    let toggleText = 'Add Report'
+    if (showForm) {
+        toggleText = 'Close'
+    }
 
     return (
         <div className="mt-20 flex flex-wrap justify-center">
             <div className="w-5/6">
-                <form onSubmit={handleSubmit}>
-                    <input 
-                        required
-                        type="text"
-                        placeholder="Your username"
-                        onChange={handleInputChange}
-                        name="userName"
-                        value={createFormData.userName}
-                    />
-                    <input 
-                        type="date"
-                        max={maxDate}
-                        onChange={handleInputChange}
-                        name="tripDate"
-                        value={createFormData.tripDate}
-                    />
-                    <input 
-                        type="number"
-                        min="0"
-                        onChange={handleInputChange}
-                        name="gageHeight"
-                        value={createFormData.gageHeight}
-                    />
-                    <textarea 
-                        required
-                        placeholder="Share your report"
-                        onChange={handleInputChange}
-                        name="report"
-                        value={createFormData.report}
-                    />
-                    <input 
-                        type="file" 
-                        accept="image/*"
-                        name="image"
-                        onChange={handleInputChange}
-                    />
-                    <button type="Submit">Submit Report</button>
-                </form>
+                <p className="text-lg">Angler Reports</p>
+                <button
+                    onClick={toggleForm}
+                >Submit a Report</button>
+                { showForm && 
+                    <form onSubmit={handleSubmit}>
+                        <input 
+                            required
+                            type="text"
+                            placeholder="Your username"
+                            onChange={handleInputChange}
+                            name="userName"
+                            value={createFormData.userName}
+                        />
+                        <input 
+                            type="date"
+                            max={maxDate}
+                            onChange={handleInputChange}
+                            name="tripDate"
+                            value={createFormData.tripDate}
+                        />
+                        <input 
+                            type="number"
+                            min="0"
+                            onChange={handleInputChange}
+                            name="gageHeight"
+                            value={createFormData.gageHeight}
+                        />
+                        <textarea 
+                            required
+                            placeholder="Share your report"
+                            onChange={handleInputChange}
+                            name="report"
+                            value={createFormData.report}
+                        />
+                        <input 
+                            type="file" 
+                            accept="image/*"
+                            name="image"
+                            onChange={handleInputChange}
+                        />
+                        <button type="Submit">Submit Report</button>
+                    </form>
+                }
                 {reportElements}
             </div>
         </div>
