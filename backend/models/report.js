@@ -13,8 +13,8 @@ const reportSchema = new mongoose.Schema({
         type: Date,
         required: false
     },
-    tripTime: {
-        type: String,
+    gageHeight: {
+        type: Number,
         required: false
     },
     report: {

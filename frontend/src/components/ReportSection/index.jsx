@@ -8,7 +8,7 @@ export default function ReportSection({ siteCode }) {
         siteCode: siteCode,
         userName: '',
         tripDate: '',
-        tripTime: '',
+        gageHeight: '',
         report: '',
         image: undefined,
     })
@@ -17,7 +17,6 @@ export default function ReportSection({ siteCode }) {
     useEffect(() => {
         getReports(siteCode)
             .then(reports => setReports([...reports]))
-            // .then(reports => console.log(reports))
     }, [])
 
     const handleInputChange = (event) => {
@@ -41,7 +40,7 @@ export default function ReportSection({ siteCode }) {
             siteCode: siteCode,
             userName: '',
             tripDate: "",
-            tripTime: "",
+            gageHeight: "",
             report: '',
             image: undefined,
         })
@@ -49,12 +48,8 @@ export default function ReportSection({ siteCode }) {
     }
 
     async function refreshReports() {
-        setTimeout(() => {
             getReports(siteCode)
                 .then(newReports => setReports(newReports))
-        }, 60000)
-        // const newReports  = getReports(siteCode)
-        // return setReports({newReports})
     }
 
     const handleSubmit = (event) => {
@@ -65,71 +60,72 @@ export default function ReportSection({ siteCode }) {
             for (const [key, value] of Object.entries(createFormData)) {
                 formData.append(key, value)
             }
-            // formData.set("image", file)
-            // console.log(formData.get("image"))
             postReport(formData)
+                .then(() => {
+                    refreshReports()
+                }, 60000)
         // how to handle if form does not include image
         } else if (!file) {
             postReport(createFormData)
+                .then(() => refreshReports())
         }
         submissionReset()
-        refreshReports()
     }
 
     let maxDate = new Date().toISOString().split("T")[0];
-    let maxTime = new Date().toISOString().split("T")[1].split(".")[0];
-    
     
     let reportElements = [<p key="0">No reports yet.</p>]
     if (reports.length > 0) {
         reportElements = reports.map(report => {
-            return <Report key={report._id} report={report} refreshReports={refreshReports} maxDate={maxDate} maxTime={maxTime} />
+            return <Report key={report._id} report={report} refreshReports={refreshReports} maxDate={maxDate} />
         })
     }
 
     
 
     return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <input 
-                    required
-                    type="text"
-                    placeholder="Your username"
-                    onChange={handleInputChange}
-                    name="userName"
-                    value={createFormData.userName}
-                />
-                <input 
-                    type="date"
-                    max={maxDate}
-                    onChange={handleInputChange}
-                    name="tripDate"
-                    value={createFormData.tripDate}
-                />
-                <input 
-                    type="time"
-                    max={maxTime}
-                    onChange={handleInputChange}
-                    name="tripTime"
-                    value={createFormData.tripTime}
-                />
-                <textarea 
-                    required
-                    placeholder="Share your report"
-                    onChange={handleInputChange}
-                    name="report"
-                    value={createFormData.report}
-                />
-                <input 
-                    type="file" 
-                    accept="image/*"
-                    name="image"
-                    onChange={handleInputChange}
-                />
-                <button type="Submit">Submit Report</button>
-            </form>
-            {reportElements}
-        </>
+        <div className="mt-20 flex flex-wrap justify-center">
+            <div className="w-5/6">
+                <form onSubmit={handleSubmit}>
+                    <input 
+                        required
+                        type="text"
+                        placeholder="Your username"
+                        onChange={handleInputChange}
+                        name="userName"
+                        value={createFormData.userName}
+                    />
+                    <input 
+                        type="date"
+                        max={maxDate}
+                        onChange={handleInputChange}
+                        name="tripDate"
+                        value={createFormData.tripDate}
+                    />
+                    <input 
+                        type="number"
+                        min="0"
+                        onChange={handleInputChange}
+                        name="gageHeight"
+                        value={createFormData.gageHeight}
+                    />
+                    <textarea 
+                        required
+                        placeholder="Share your report"
+                        onChange={handleInputChange}
+                        name="report"
+                        value={createFormData.report}
+                    />
+                    <input 
+                        type="file" 
+                        accept="image/*"
+                        name="image"
+                        onChange={handleInputChange}
+                    />
+                    <button type="Submit">Submit Report</button>
+                </form>
+                {reportElements}
+            </div>
+        </div>
     )
 }

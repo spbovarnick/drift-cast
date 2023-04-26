@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { updateReport, deleteReport } from "../../../utils/backend"
 
-export default function Report({ report, maxDate, maxTime, refreshReports }) {
+export default function Report({ report, maxDate, refreshReports }) {
     const [file, setFile] = useState(false)
     const [showUpdateForm, setShowUpdateForm] = useState(false)
     const [updateFormData, setUpdateFormData] = useState({
         userName: report.userName,
         tripDate: report.tripDate,
-        tripTime: report.tripTime,
+        gageHeight: report.gageHeight,
         report: report.report,
         image: report.image,
     })
@@ -20,22 +20,26 @@ export default function Report({ report, maxDate, maxTime, refreshReports }) {
         })
         event.target.name === "image" && setFile(true)
     }
-    // console.log(updateFormData.image)
-    // console.log((updateFormData))
+
+
     const handleSubmit = (event) => {
         event.preventDefault()
         setShowUpdateForm(false)
         if (file) {
             const uFormData = new FormData()
-            // formData.append("test", "value")
             for (const [key, value] of Object.entries(updateFormData)) {
                 uFormData.append(key, value)
             }
             updateReport(uFormData, report._id)
+                .then(() => {
+                    setTimeout(() => {
+                        refreshReports()
+                    }, 60000)
+                })
         // how to handle if form does not include image
         } else if (!file) {
-            console.log(updateFormData)
             updateReport(updateFormData, report._id)
+                .then(() => refreshReports())
         }
     }
 
@@ -74,11 +78,11 @@ export default function Report({ report, maxDate, maxTime, refreshReports }) {
                     value={updateFormData.tripDate}
                 />
                 <input 
-                    type="time"
-                    max={maxTime}
+                    type="number"
+                    max="0"
                     onChange={handleInputChange}
-                    name="tripTime"
-                    value={updateFormData.tripTime}
+                    name="gageHeight"
+                    value={updateFormData.gageHeight}
                 />
                 <textarea 
                     required
