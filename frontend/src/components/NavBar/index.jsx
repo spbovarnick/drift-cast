@@ -39,7 +39,7 @@ export default function NavBar() {
                         >Home</span>
                     </li>
                 </Link>    
-                <Link to="#">
+                <Link to="/rivers">
                     <li className="nav-item">
                         <span
                         className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"

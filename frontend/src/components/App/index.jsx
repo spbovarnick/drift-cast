@@ -7,6 +7,7 @@ import Card from '../Card'
 import DetailsPage from '../DetailsPage'
 import HomePage from '../HomePage'
 import About from '../About'
+import RiversIndex from '../RiversIndex'
 
 
 function App() {
@@ -130,6 +131,14 @@ function App() {
               conditions={conditions}
               setConditions={setConditions}
               buttonPsuedos={buttonPsuedos}
+            />
+          }
+        />
+        <Route 
+          path='/rivers'
+          element={
+            <RiversIndex 
+              allRivers={allRivers}
             />
           }
         />
