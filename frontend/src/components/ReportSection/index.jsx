@@ -45,8 +45,8 @@ export default function ReportSection({ siteCode }) {
         setCreateFormData({
             siteCode: siteCode,
             userName: '',
-            tripDate: "",
-            gageHeight: "",
+            tripDate: '',
+            gageHeight: '',
             report: '',
             image: undefined,
         })
@@ -112,21 +112,20 @@ export default function ReportSection({ siteCode }) {
         <div className="mt-20 flex flex-wrap justify-center">
             <div className="w-5/6 max-w-screen-lg">
                 <div className="">
-                    <p className="text-lg text-center">Angler Reports</p>
+                    <p className="text-lg text-center text-blue-800 font-bold">Angler Reports</p>
                     <button
                         onClick={toggleForm}
-                        className="bg-lime-400 p-2 rounded-full"
+                        className="text-blue-800 font-medium bg-lime-400 p-2 rounded-full"
                     >{toggleText}</button>
                 </div>
                 { showForm && 
-                <div>
                     <form 
                         onSubmit={handleSubmit}
-                        className="text-blue-800"    
+                        className="flex flex-col text-blue-800"    
                     >
                         <label>Username: </label>
                         <input 
-                            className="rounded-md border-blue-400"
+                            className="rounded-md border-blue-400 w-1/3"
                             required
                             type="text"
                             placeholder="Your username"
@@ -134,40 +133,51 @@ export default function ReportSection({ siteCode }) {
                             name="userName"
                             value={createFormData.userName}
                         />
-                        <input 
-                            className="rounded-md border-blue-400"
-                            type="datetime-local"
-                            max={getMaxDateTime()}
-                            onChange={handleInputChange}
-                            name="tripDate"
-                            value={createFormData.tripDate}
-                        />
-                        <input 
-                            className="rounded-md border-blue-400"
-                            type="number"
-                            min="0"
-                            onChange={handleInputChange}
-                            name="gageHeight"
-                            value={createFormData.gageHeight}
-                        />
-                        <textarea 
-                            className="rounded-md border-blue-400"
-                            required
-                            placeholder="Share your report"
-                            onChange={handleInputChange}
-                            name="report"
-                            value={createFormData.report}
-                        />
-                        <input 
-                            className="rounded-md border-blue-400"
-                            type="file" 
-                            accept="image/*"
-                            name="image"
-                            onChange={handleInputChange}
-                        />
-                        <button className="bg-lime-400 rounded-full p-2" type="Submit">Submit Report</button>
+                        <div className="flex justify-around">
+                            <div className="flex flex-col">
+                                <label>Trip date and time:</label>
+                                <input 
+                                    className="rounded-md border-blue-400"
+                                    type="datetime-local"
+                                    max={getMaxDateTime()}
+                                    onChange={handleInputChange}
+                                    name="tripDate"
+                                    value={createFormData.tripDate}
+                                />
+                            </div>
+                            <div className="flex flex-col">
+                                <label>Gage Height:</label>
+                                <input 
+                                    className="rounded-md border-blue-400"
+                                    type="number"
+                                    min="0"
+                                    onChange={handleInputChange}
+                                    name="gageHeight"
+                                    value={createFormData.gageHeight}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex flex-col self-center w-2/3">
+                            <label>Trip report:</label>
+                            <textarea 
+                                className="rounded-md border-blue-400"
+                                required
+                                placeholder="Share your report"
+                                onChange={handleInputChange}
+                                name="report"
+                                value={createFormData.report}
+                            />
+                            <label>Photo:</label>
+                            <input 
+                                className="rounded-md border-blue-400"
+                                type="file" 
+                                accept="image/*"
+                                name="image"
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <button className="self-end bg-lime-400 font-medium rounded-full p-2 w-fit" type="Submit">SUBMIT REPORT</button>
                     </form>
-                    </div>
                 }
                 {reportElements}
             </div>
