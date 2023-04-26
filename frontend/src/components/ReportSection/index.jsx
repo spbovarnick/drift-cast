@@ -67,8 +67,10 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
             }
             postReport(formData)
                 .then(() => {
-                    refreshReports()
-                }, 60000)
+                    setTimeout(() => {
+                        refreshReports()
+                    }, 10000)
+                })
         // how to handle if form does not include image
         } else if (!file) {
             postReport(createFormData)
@@ -183,7 +185,16 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
                                     type="file" 
                                     accept="image/*"
                                     name="image"
-                                    onChange={handleInputChange}
+                                    // onChange={handleFileUpload}
+                                    onChange={(event) => {
+                                        const file = event.target.files[0]
+                                        if (file.size > 3000000 ) {
+                                            console.log('too big')
+                                            alert("File must be smaller than 3MB")
+                                            return
+                                        } else {
+                                            handleInputChange(event)
+                                    }}}
                                 />
                             </div>
                         </div>

@@ -37,7 +37,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                 .then(() => {
                     setTimeout(() => {
                         refreshReports()
-                    }, 60000)
+                    }, 10000)
                 })
         // how to handle if form does not include image
         } else if (!file) {
@@ -143,7 +143,15 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                                 type="file" 
                                 accept="image/*"
                                 name="image"
-                                onChange={handleInputChange}
+                                onChange={(event) => {
+                                    const file = event.target.files[0]
+                                    if (file.size > 3000000 ) {
+                                        console.log('too big')
+                                        alert("File must be smaller than 3MB")
+                                        return
+                                    } else {
+                                        handleInputChange(event)
+                                }}}
                             />
                         </div>
                     </div>

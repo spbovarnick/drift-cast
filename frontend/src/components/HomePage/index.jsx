@@ -7,8 +7,8 @@ export default function HomePage({ allRivers }) {
 
     return (
         <div className="">
-            <div id="hero" className="grid-cols-1 h-80 m-16 border-2 border-white rounded-md">
-                <div className="drop-shadow-lg text-blue-800 flex flex-col justify-center h-full">
+            <div  className="grid-cols-1 h-80 m-16 border-2 border-white rounded-md">
+                <div id="hero" className="drop-shadow-lg text-blue-800 flex flex-col justify-center h-full">
                     <p className={`font-serif text-xl ${backdrop}`}>DriftCast</p>
                     <p className={`${backdrop} text-sm md:text-base`}>River and stream condition tracker</p>
                     <button className={`${backdrop} self-center mt-20 rounded-full rounded-r-full hover:opacity-70 active:shadow-inner active:outline active:outline-2 outline-blue-400`}>Learn More</button>
