@@ -179,7 +179,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                                     }, 1000)
                                 }}
                                 name="tripDate"
-                                value={updateFormData.tripDate}
+                                value={updateFormData.tripDate ? updateFormData.tripDate : ''}
                             />
                         </div>
                     </div>
