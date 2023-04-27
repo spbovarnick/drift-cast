@@ -1,4 +1,4 @@
-import about from "../../assets/static/about.jpg"
+import about from "../../assets/static/about.JPG"
 
 export default function About() {
 
