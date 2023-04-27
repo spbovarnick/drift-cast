@@ -5,7 +5,7 @@ import placeholder from "../../assets/static/placeholder.jpg"
 
 
 
-export default function Report({ report, getMaxDateTime, refreshReports, buttonPsuedos, siteCode }) {
+export default function Report({ report, getMaxDateTime, refreshReports, buttonPsuedos, siteCode, }) {
     const [file, setFile] = useState(false)
     const [showUpdateForm, setShowUpdateForm] = useState(false)
     const [tripDate, setTripDate] = useState(false)
@@ -63,9 +63,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
             }
             updateReport(uFormData, report._id)
                 .then(() => {
-                    setTimeout(() => {
                         refreshReports()
-                    }, 10000)
                 })
                     .then(() => setFile(false))
         // how to handle if form does not include image
@@ -84,14 +82,39 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
         toggleText = "X"
     }
 
+    const readableDateMaker = (date) => {
+        if (date) {
+            let readableDate = new Date(date)
+            return readableDate.toString().slice(0,24)
+        } else {
+            return null
+        }
+    }
+
+    const readableCreatedAt = readableDateMaker(report.createdAt)
+    const readableUpdatedAt = readableDateMaker(report.updatedAt)
+    const readableTripDate = readableDateMaker(report.tripDate)
+
+    let gageAndTrip = <div className="md:border-t-2"></div>
+    if (report.tripDate) {
+        gageAndTrip = <div className="flex flex-col md:flex-row md:justify-between md:border-2 md:rounded-md">
+            <p className="m-1"><span className="font-medium">Trip date and time:</span> {readableTripDate}</p>
+            <p className="m-1"><span className="font-medium">Gage Height:</span> {report.gageHeight} feet</p>
+        </div>
+    }
+
     let reportElement =
         <div className="p-4 m-4 border-2 rounded-md text-blue-800">
-            <p className=""><span className="font-medium">User:</span> {report.userName}</p>
-            <p>Gage Height: {report.gageHeight}</p>
+            <div className={"flex flex-col md:flex-row md:justify-between"}>
+                <p className="m-1"><span className="font-medium">User:</span> {report.userName}</p> 
+                <p className="m-1"><span className="font-medium">Posted at:</span> {readableCreatedAt}</p>
+            </div>
+            {gageAndTrip}
+            
             <div className="flex flex-col md:flex-row md: justify-around mt-4">
                 <div className="md:w-1/2">
                     <p className="font-medium">Report details:</p>
-                    <p className="h-60 border-2 rounded-md p-2 my-2 border-blue-200 overflow-auto">{report.report}</p>
+                    <p className="h-fit border-2 rounded-md p-2 my-2 border-blue-200 overflow-auto">{report.report}</p>
                 </div>
                 <img 
                     className="w-80 border-2 border-white my-2 rounded-md" 

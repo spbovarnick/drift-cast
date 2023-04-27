@@ -37,7 +37,7 @@ const s3 = new S3Client({
 ------------------------------ */ 
 // Index route (GET), displays all
 router.get('/river/:siteCode', async function(req, res) {
-    const reports = await db.Report.find({ siteCode: req.params.siteCode })
+    const reports = await db.Report.find({ siteCode: req.params.siteCode }).sort([['createdAt', -1]])
     for (const report of reports) {
         if (report.image) {
             const command = new GetObjectCommand({

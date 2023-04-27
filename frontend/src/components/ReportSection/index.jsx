@@ -26,7 +26,6 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
         if (createFormData.tripDate) {
             getData(`https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=${siteCode}&startDT=${createFormData.tripDate}&parameterCd=00060,00065&siteStatus=all`)
             .then((res) => {
-                console.log(parseInt(res.value.timeSeries[1].values[0].value[0].value))
                 let gageHeight = {"gageHeight": parseInt(res.value.timeSeries[1].values[0].value[0].value)}
                 return gageHeight
             })
@@ -90,9 +89,7 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
             }
             postReport(formData)
                 .then(() => {
-                    setTimeout(() => {
                         refreshReports()
-                    }, 10000)
                 })
         // how to handle if form does not include image
         } else if (!file) {
@@ -207,7 +204,6 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
                                     onChange={(event) => {
                                         const file = event.target.files[0]
                                         if (file.size > 3000000 ) {
-                                            console.log('too big')
                                             alert("File must be smaller than 3MB")
                                             return
                                         } else {
