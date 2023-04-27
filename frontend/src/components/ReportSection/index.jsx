@@ -24,7 +24,6 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
 
     useEffect(() => {
         if (createFormData.tripDate) {
-            console.log(`https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=${siteCode}&startDT=${createFormData.tripDate}-0700&endDT=${createFormData.tripDate}-0700&parameterCd=00060,00065&siteStatus=all`)
             getData(`https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=${siteCode}&startDT=${createFormData.tripDate}&parameterCd=00060,00065&siteStatus=all`)
             .then((res) => {
                 console.log(parseInt(res.value.timeSeries[1].values[0].value[0].value))
@@ -125,6 +124,7 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
             return <Report 
                 key={report._id}
                 report={report}
+                siteCode={siteCode}
                 refreshReports={refreshReports}
                 getMaxDateTime={getMaxDateTime}
                 buttonPsuedos={buttonPsuedos}

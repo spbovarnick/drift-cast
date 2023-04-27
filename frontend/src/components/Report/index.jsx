@@ -1,12 +1,14 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { updateReport, deleteReport } from "../../../utils/backend"
+import { getData } from "../../../utils/api"
 import placeholder from "../../assets/static/placeholder.jpg"
 
 
 
-export default function Report({ report, getMaxDateTime, refreshReports, buttonPsuedos }) {
+export default function Report({ report, getMaxDateTime, refreshReports, buttonPsuedos, siteCode }) {
     const [file, setFile] = useState(false)
     const [showUpdateForm, setShowUpdateForm] = useState(false)
+    const [tripDate, setTripDate] = useState(false)
     const [updateFormData, setUpdateFormData] = useState({
         userName: report.userName,
         tripDate: report.tripDate,
@@ -15,13 +17,37 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
         image: report.image,
     })
 
+    useEffect(() => {
+        if (updateFormData.tripDate) {
+            getData(`https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=${siteCode}&startDT=${updateFormData.tripDate}&parameterCd=00060,00065&siteStatus=all`)
+            .then((res) => {
+                let gageHeight = {"gageHeight": parseInt(res.value.timeSeries[1].values[0].value[0].value)}
+                return gageHeight
+            })
+                .then((res) => {
+                    return setUpdateFormData({
+                        ...updateFormData,
+                        ...res
+                    })
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                    alert("The date and time you entered may be too recent to generate the gage height data for your report. You can wait and retry, or update your report later.")
+                })
+        }
+    }, [tripDate])
 
     const handleInputChange = (event) => {
+        if (event.target.name === "image"){
+            setUpdateFormData({
+                ...updateFormData,
+                [event.target.name]: event.target.files[0]
+            })
+        }
         setUpdateFormData({
             ...updateFormData,
             [event.target.name]: event.target.value
         })
-        event.target.name === "image" && setFile(true)
     }
 
 
@@ -45,10 +71,6 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                 .then(() => refreshReports())
         }
     }
-
-    // if (report.tripDate) {
-
-    // }
 
     const toggler = () => {
         setShowUpdateForm(!showUpdateForm)
@@ -112,12 +134,17 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                                 className="rounded-md border-blue-400"
                                 type="date"
                                 max={getMaxDateTime()}
-                                onChange={handleInputChange}
+                                onChange={(e) => {
+                                    handleInputChange(e)
+                                    setTimeout(() => {
+                                        setTripDate(true)
+                                    }, 1000)
+                                }}
                                 name="tripDate"
                                 value={updateFormData.tripDate}
                             />
                         </div>
-                        <div className="flex flex-col m-2">
+                        {/* <div className="flex flex-col m-2">
                             <label>Gage Height:</label>
                             <input 
                                 className="rounded-md border-blue-400" 
@@ -127,7 +154,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                                 name="gageHeight"
                                 value={updateFormData.gageHeight}
                             />
-                        </div>
+                        </div> */}
                     </div>
                     <div className="flex flex-col md:flex-row justify-around md:self-center w-full">
                         <div className="flex flex-col w-5/6 max-w-lg m-2">
