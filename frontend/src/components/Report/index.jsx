@@ -91,9 +91,17 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
         }
     }
 
+    
     const readableCreatedAt = readableDateMaker(report.createdAt)
     const readableUpdatedAt = readableDateMaker(report.updatedAt)
     const readableTripDate = readableDateMaker(report.tripDate)
+    
+    let updatedDiv
+    if (report.updatedAt !== report.createdAt) {
+        updatedDiv = <div>
+            <p className="m-1"><span className="font-medium">Updated at:</span> {readableUpdatedAt}</p>
+        </div>
+    }
 
     let gageAndTrip = <div className="md:border-t-2"></div>
     if (report.tripDate) {
@@ -108,6 +116,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
             <div className={"flex flex-col md:flex-row md:justify-between"}>
                 <p className="m-1"><span className="font-medium">User:</span> {report.userName}</p> 
                 <p className="m-1"><span className="font-medium">Posted at:</span> {readableCreatedAt}</p>
+                {updatedDiv}
             </div>
             {gageAndTrip}
             
