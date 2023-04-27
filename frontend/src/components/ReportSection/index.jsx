@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { postReport, getReports } from "../../../utils/backend";
+import { getData } from "../../../utils/api";
 import Report from "../Report";
 
 export default function ReportSection({ siteCode, buttonPsuedos }) {
     const [file, setFile] = useState(false)
     const [showForm, setShowForm] = useState(false)
+    const [tripDate, setTripDate] = useState(false)
     const [createFormData, setCreateFormData] = useState({
         siteCode: siteCode,
         userName: '',
         tripDate: '',
         gageHeight: '',
         report: '',
-        image: undefined,
+        image: '',
     })
     const [reports, setReports] = useState([])
 
@@ -19,6 +21,28 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
         getReports(siteCode)
             .then(reports => setReports([...reports]))
     }, [])
+
+    useEffect(() => {
+        if (createFormData.tripDate) {
+            console.log(`https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=${siteCode}&startDT=${createFormData.tripDate}-0700&endDT=${createFormData.tripDate}-0700&parameterCd=00060,00065&siteStatus=all`)
+            getData(`https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=${siteCode}&startDT=${createFormData.tripDate}&parameterCd=00060,00065&siteStatus=all`)
+            .then((res) => {
+                console.log(parseInt(res.value.timeSeries[1].values[0].value[0].value))
+                let gageHeight = {"gageHeight": parseInt(res.value.timeSeries[1].values[0].value[0].value)}
+                return gageHeight
+            })
+                .then((res) => {
+                    return setCreateFormData({
+                        ...createFormData,
+                        ...res
+                    })
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                    alert("The date and time you entered may be too recent to generate the gage height data for your report. You can wait and retry, or update your report later.")
+                })
+        }
+    }, [tripDate])
 
     const toggleForm = () => {
         setShowForm(!showForm)
@@ -38,8 +62,7 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
             })
         }
     }
-  
-
+    
     const submissionReset = () => {
         setCreateFormData({
             siteCode: siteCode,
@@ -47,9 +70,11 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
             tripDate: '',
             gageHeight: '',
             report: '',
-            image: undefined,
+            image: '',
         })
         setFile(false)
+        setTripDate(false)
+        toggleForm()
     }
 
     async function refreshReports() {
@@ -59,7 +84,6 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        // how to handle if report includes image
         if (file) {
             const formData = new FormData()
             for (const [key, value] of Object.entries(createFormData)) {
@@ -149,20 +173,14 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
                                     className="rounded-md border-blue-400"
                                     type="datetime-local"
                                     max={getMaxDateTime()}
-                                    onChange={handleInputChange}
+                                    onChange={(e) => {
+                                        handleInputChange(e)
+                                        setTimeout(() => {
+                                            setTripDate(true)
+                                        }, 1000)
+                                    }}
                                     name="tripDate"
                                     value={createFormData.tripDate}
-                                />
-                            </div>
-                            <div className="flex flex-col m-2">
-                                <label>Gage Height:</label>
-                                <input 
-                                    className="rounded-md border-blue-400"
-                                    type="number"
-                                    min="0"
-                                    onChange={handleInputChange}
-                                    name="gageHeight"
-                                    value={createFormData.gageHeight}
                                 />
                             </div>
                         </div>
