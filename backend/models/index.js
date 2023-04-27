@@ -10,5 +10,3 @@ const mongodbUri = process.env.MONGODBURI;
 module.exports = {
     Report: require('./report')
 }
-
-console.log(mongodbUri)

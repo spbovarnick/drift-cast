@@ -69,8 +69,6 @@ router.get('/', async function(req, res) {
 
 // Create route (POST)
 router.post('/', upload.single('image'), async (req, res) => {
-    console.log("req.body", req.body)
-    console.log("req.file", req.file)
     if (req.file) {
         // load filed to memory
         const imgClean = await sharp(req.file.buffer)

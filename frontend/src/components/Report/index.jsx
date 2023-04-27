@@ -46,6 +46,10 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
         }
     }
 
+    // if (report.tripDate) {
+
+    // }
+
     const toggler = () => {
         setShowUpdateForm(!showUpdateForm)
     }
@@ -58,6 +62,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
     let reportElement =
         <div className="p-4 m-4 border-2 rounded-md text-blue-800">
             <p className=""><span className="font-medium">User:</span> {report.userName}</p>
+            <p>Gage Height: {report.gageHeight}</p>
             <div className="flex flex-col md:flex-row md: justify-around mt-4">
                 <div className="md:w-1/2">
                     <p className="font-medium">Report details:</p>
@@ -146,7 +151,6 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                                 onChange={(event) => {
                                     const file = event.target.files[0]
                                     if (file.size > 3000000 ) {
-                                        console.log('too big')
                                         alert("File must be smaller than 3MB")
                                         return
                                     } else {

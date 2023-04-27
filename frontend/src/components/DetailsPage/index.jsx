@@ -12,7 +12,6 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
         if (!riverData) {
             getData(`https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=${id}&parameterCd=00060,00065&siteStatus=all`)
                 .then((res) => {
-                    // console.log(res)
                     let obj = {}
                     for (let i = 0; i < res.value.timeSeries.length; i += 1) {
                     // a bunch of logic to get the rivery name capitalized from the object's "siteName" key
@@ -46,7 +45,6 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
                         obj.highHigh = highHigh,
                         obj.tooHighHigh = tooHighHigh
                     }
-                    // console.log(obj)
                     return obj
                 })
                     .then((res) => setDetailPage(res))
