@@ -43,11 +43,13 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                 ...updateFormData,
                 [event.target.name]: event.target.files[0]
             })
+            setFile(true)
+        } else {
+            setUpdateFormData({
+                ...updateFormData,
+                [event.target.name]: event.target.value
+            })
         }
-        setUpdateFormData({
-            ...updateFormData,
-            [event.target.name]: event.target.value
-        })
     }
 
 
@@ -65,6 +67,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                         refreshReports()
                     }, 10000)
                 })
+                    .then(() => setFile(false))
         // how to handle if form does not include image
         } else if (!file) {
             updateReport(updateFormData, report._id)
@@ -106,7 +109,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
 
     if (showUpdateForm) {
         reportElement =
-            <div className="p-4 m-4 border-2 rounded-md text-blue-800">
+            <div className="p-4 m-4 border-2 rounded-md text-blue-800 bg-sky-100">
                 <button 
                     onClick={() => {toggler()}}
                     className={`${buttonPsuedos}`}
@@ -115,7 +118,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                     className="flex flex-col text-blue-800 m-4"
                     onSubmit={handleSubmit}
                 >
-                    <div className="flex flex-col md:flex-row items-start md:justify-around">
+                    <div className="flex flex-col items-start">
                         <div className="flex flex-col m-2">
                             <label>Username: </label>
                             <input 
@@ -144,19 +147,8 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                                 value={updateFormData.tripDate}
                             />
                         </div>
-                        {/* <div className="flex flex-col m-2">
-                            <label>Gage Height:</label>
-                            <input 
-                                className="rounded-md border-blue-400" 
-                                type="number"
-                                max="0"
-                                onChange={handleInputChange}
-                                name="gageHeight"
-                                value={updateFormData.gageHeight}
-                            />
-                        </div> */}
                     </div>
-                    <div className="flex flex-col md:flex-row justify-around md:self-center w-full">
+                    <div className="flex flex-col md:flex-row justify-around md: justify-start md:self-center w-full">
                         <div className="flex flex-col w-5/6 max-w-lg m-2">
                             <label>Trip report:</label>
                             <textarea 

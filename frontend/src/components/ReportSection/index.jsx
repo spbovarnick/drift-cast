@@ -152,9 +152,9 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
                 { showForm && 
                     <form 
                         onSubmit={handleSubmit}
-                        className="flex flex-col text-blue-800 m-4"    
+                        className="flex flex-col text-blue-800 mx-4 bg-sky-100 rounded-lg p-2"    
                     >
-                        <div className="flex flex-col md:flex-row items-start md:justify-around">
+                        <div className="flex flex-col items-start">
                             <div className="flex flex-col m-2">
                                 <label>Username: </label>
                                 <input 
@@ -184,7 +184,7 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-col md:flex-row justify-around md:self-center w-full">
+                        <div className="flex flex-col md:flex-row justify-start md:self-center w-full">
                             <div className="flex flex-col w-5/6 max-w-lg m-2">
                                 <label>Trip report:</label>
                                 <textarea 
