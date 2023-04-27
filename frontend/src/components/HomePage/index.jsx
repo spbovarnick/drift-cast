@@ -11,8 +11,8 @@ export default function HomePage({ allRivers }) {
                 <div id="hero" className="drop-shadow-lg text-blue-800 flex flex-col justify-center h-full">
                     <p className={`font-serif text-xl ${backdrop}`}>DriftCast</p>
                     <p className={`${backdrop} text-sm md:text-base`}>River and stream condition tracker</p>
-                    <Link to="/about">
-                        <p className={`${backdrop} self-center mt-20 rounded-full rounded-r-full hover:opacity-70 active:shadow-inner active:outline active:outline-2 outline-blue-400`}>Learn More</p>
+                    <Link to="/about" className="flex justify-end">
+                        <p className={`${backdrop}  mt-20 rounded-full rounded-r-full hover:opacity-70 active:shadow-inner active:outline active:outline-2 outline-blue-400`}>Learn More</p>
                     </Link>
                 </div>
             </div>
