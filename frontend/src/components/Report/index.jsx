@@ -93,7 +93,10 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                     <p className="font-medium">Report details:</p>
                     <p className="h-60 border-2 rounded-md p-2 my-2 border-blue-200 overflow-auto">{report.report}</p>
                 </div>
-                <img className="w-80 border-2 border-white my-2 rounded-md" src={report.imageUrl ? report.imageUrl : placeholder}/>
+                <img 
+                    className="w-80 border-2 border-white my-2 rounded-md" 
+                    src={report.imageUrl ? report.imageUrl : placeholder}
+                />
             </div>
             <div className="flex justify-between">
                 <button
