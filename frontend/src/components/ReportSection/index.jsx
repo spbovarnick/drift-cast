@@ -37,6 +37,10 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
                         ...res
                     })
                 })
+                .catch((error) => {
+                    console.log(error.message)
+                    alert("The date and time you entered may be too recent to generate the gage height data for your report. You can wait and retry, or update your report later.")
+                })
         }
     }, [tripDate])
 
