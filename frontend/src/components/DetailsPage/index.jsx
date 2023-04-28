@@ -79,9 +79,6 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
         </div>
     }
 
-   console.log(riverData)
-
-
     let detailsContent = <p>Loading...</p>
     if (riverData && conditions) {
         detailsContent = <div className="w-5/6 max-w-screen-lg mt-4">
