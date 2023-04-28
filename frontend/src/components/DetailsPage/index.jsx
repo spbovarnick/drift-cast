@@ -5,6 +5,7 @@ import { defineConditions } from "../../../utils/api"
 import ReportSection from "../ReportSection"
 
 export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeights, conditions, setConditions, buttonPsuedos, currentUser, currentUserId }) {
+    const [weather, setWeather] = useState()
 
     const {id} = useParams()
    
@@ -58,7 +59,13 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
         }
     }, [conditions, riverData, setConditions, defineConditions])
 
-   
+    useEffect(() => {
+        getData(`https://api.weather.gov/points/${riverData.latitude},${riverData.longitude}`)
+            .then(res => getData(res.properties.forecastHourly))
+                .then(res => setWeather(res.properties.periods[0]))
+    }, [])
+
+   console.log(riverData)
 
     let detailsContent = <p>Loading...</p>
     if (riverData && conditions) {
