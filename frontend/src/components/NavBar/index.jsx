@@ -53,6 +53,20 @@ export default function NavBar() {
                         >About</span>
                     </li>
                 </Link>
+                <Link to='/auth/login'>
+                    <li className="nav-item">
+                        <span
+                        className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
+                        >Log In</span>
+                    </li>
+                </Link>
+                <Link to='/auth/signup'>
+                    <li className="nav-item">
+                        <span
+                        className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
+                        >Sign Up</span>
+                    </li>
+                </Link>
             </ul>
           </div>
         </div>

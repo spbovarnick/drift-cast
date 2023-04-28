@@ -8,6 +8,7 @@ import DetailsPage from '../DetailsPage'
 import HomePage from '../HomePage'
 import About from '../About'
 import RiversIndex from '../RiversIndex'
+import AuthFormPage from '../AuthFormPage'
 
 
 function App() {
@@ -141,6 +142,12 @@ function App() {
               allRivers={allRivers}
             />
           }
+        />
+        <Route 
+          path='/auth/:formType'
+          element={<AuthFormPage 
+            buttonPsuedos={buttonPsuedos}
+          />}
         />
       </Routes>
 

@@ -18,6 +18,7 @@ const upload = multer({ storage: storage })
 
 // JWT config
 const config = require('../../jwt.config.js')
+const user = require('../models/user')
 
 /* JWT middleware to check if a JWT sent from client
 is valid on all routes that require auth
@@ -74,24 +75,8 @@ router.get('/river/:siteCode', async function(req, res) {
             });
             const url = await getSignedUrl(s3, command, { expiresIn: 604799 });
             report.imageUrl = url
-        } 
-    }
-    res.json(reports)
-})
-
-router.get('/', async function(req, res) {
-    const reports = await db.Report.find({ })
-    for (const report of reports){
-        if (report.image){
-            const command = new GetObjectCommand({
-                Bucket: bucketName,
-                Key: report.image,
-            });
-            const url = await getSignedUrl(s3, command, { expiresIn: 604799 });
-            report.image = url
         }
     }
-
     res.json(reports)
 })
 

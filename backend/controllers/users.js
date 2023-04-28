@@ -8,13 +8,20 @@ const db = require("../models")
 //  require JWT config
 const config = require('../../jwt.config.js')
 
+// get user
+router.get('/:userId', (req, res) => {
+    db.User.findById(req.params.userId)
+        .then(user => {
+            res.json(user)
+            return
+        })
+})
+
 // create user
 router.post('/signup', (req, res) => {
-    console.log(req.body)
     // create a new user
     db.User.create(req.body)
         .then(user => {
-            console.log(user)
             const token = jwt.encode({ id: user.id }, config.jwtSecret)
             res.json({ token: token })
             return
