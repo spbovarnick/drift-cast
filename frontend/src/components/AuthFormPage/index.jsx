@@ -23,6 +23,7 @@ export default function AuthFormPage({ buttonPsuedos, setCurrentUser, setCurrent
         event.preventDefault()
         if (formType === 'login') {
             const data = await logIn(authFormData)
+            console.log(data)
             localStorage.setItem('userToken', data.token)
             localStorage.setItem('userName', data.userName)
             setCurrentUser(data.userName)
@@ -30,8 +31,8 @@ export default function AuthFormPage({ buttonPsuedos, setCurrentUser, setCurrent
         } else {
             const data = await signUp(authFormData)
             localStorage.setItem('userToken', data.token)
-            localStorage.setItem('userToken', data.userName)
-            localStorage.setItem('userToken', data.userId)
+            localStorage.setItem('userName', data.userName)
+            localStorage.setItem('userId', data.userId)
             setCurrentUser(data.userName)
             setCurrentUserId(data.userId)
         }
