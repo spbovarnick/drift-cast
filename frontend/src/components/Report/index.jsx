@@ -8,7 +8,7 @@ import placeholder from "../../assets/static/placeholder.jpg"
 
 export default function Report({ report, getMaxDateTime, refreshReports, buttonPsuedos, siteCode, }) {
     const [file, setFile] = useState(false)
-    const [user, setUser] = useState({})
+    const [reportUser, setReportUser] = useState({})
     const [showUpdateForm, setShowUpdateForm] = useState(false)
     const [tripDate, setTripDate] = useState(false)
     const [updateFormData, setUpdateFormData] = useState({
@@ -23,7 +23,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
             .then((user) => {
                return user
             })
-                .then(res => setUser(res))
+                .then(res => setReportUser(res))
     }, [])
 
     useEffect(() => {
@@ -76,7 +76,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                     .then(() => setFile(false))
         // how to handle if form does not include image
         } else if (!file) {
-            updateReport(updateFormData, report._id)
+            updateReport(updateFormData, report.id)
                 .then(() => refreshReports())
         }
     }
@@ -118,9 +118,9 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
             <p className="m-1"><span className="font-medium">Gage Height:</span> {report.gageHeight} feet</p>
         </div>
     }
-
+    
     let actions
-    if (user._id === report.userId) {
+    if (reportUser._id === report.userId) {
         actions = 
             <div className="flex justify-between">
                 <button
@@ -137,7 +137,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
     let reportElement =
         <div className="p-4 m-4 border-2 rounded-md text-blue-800">
             <div className={"flex flex-col md:flex-row md:justify-between"}>
-                <p className="m-1"><span className="font-medium">Reported by:</span> {user.username}</p> 
+                <p className="m-1"><span className="font-medium">Reported by:</span> {reportUser.username}</p> 
                 <p className="m-1"><span className="font-medium">Posted at:</span> {readableCreatedAt}</p>
                 {updatedDiv}
             </div>

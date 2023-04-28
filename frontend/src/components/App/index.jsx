@@ -131,6 +131,7 @@ function App() {
           path='/details/:id'
           element={
             <DetailsPage 
+              currentUser={currentUser}
               riverData={detailPage}
               setDetailPage={setDetailPage}
               staticGaugeHeights={staticGaugeHeights}

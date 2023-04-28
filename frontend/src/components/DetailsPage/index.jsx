@@ -4,7 +4,7 @@ import { getData } from "../../../utils/api"
 import { defineConditions } from "../../../utils/api"
 import ReportSection from "../ReportSection"
 
-export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeights, conditions, setConditions, buttonPsuedos }) {
+export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeights, conditions, setConditions, buttonPsuedos, currentUser }) {
 
     const {id} = useParams()
    
@@ -62,8 +62,8 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
 
     let detailsContent = <p>Loading...</p>
     if (riverData && conditions) {
-        detailsContent = <div className="w-5/6 max-w-screen-lg">
-            <p className="text-center text-blue-800 text-xl font-medium">{riverData.name}</p>
+        detailsContent = <div className="w-5/6 max-w-screen-lg mt-4">
+            <p className="text-center text-blue-800 text-xl font-bold mb-8">{riverData.name}</p>
             <div className={`p-4`}>
                 <div className="flex flex-col md:flex-row h-4/5">
                     <iframe
@@ -93,12 +93,13 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
     }
     
     return (
-        <div>
+        <div className="h-screen">
         <div className="flex flex-wrap justify-center">
             
         {detailsContent}
         </div>
         { riverData && <ReportSection 
+            currentUser={currentUser}
             siteCode={riverData.siteCode}
             buttonPsuedos={buttonPsuedos}
         /> }

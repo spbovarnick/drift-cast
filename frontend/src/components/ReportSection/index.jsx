@@ -3,7 +3,7 @@ import { postReport, getReports } from "../../../utils/backend";
 import { getData } from "../../../utils/api";
 import Report from "../Report";
 
-export default function ReportSection({ siteCode, buttonPsuedos }) {
+export default function ReportSection({ siteCode, buttonPsuedos, currentUser }) {
     const [file, setFile] = useState(false)
     // const [currentUser, setCurrentUser] = useState()
     const [showForm, setShowForm] = useState(false)
@@ -128,9 +128,20 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
         })
     }
 
-    let toggleText = 'ADD REPORT'
-    if (showForm) {
-        toggleText = 'CLOSE'
+    let addReportElements
+    if (currentUser) {
+        let toggleText = 'ADD REPORT'
+        if (showForm) {
+            toggleText = 'CLOSE'
+        }
+
+        addReportElements = 
+            <>
+            <button
+                onClick={toggleForm}
+                className={`${buttonPsuedos}`}
+            >{toggleText}</button>
+            </>
     }
 
    
@@ -138,13 +149,10 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
     return (
         <div className="mt-20 flex flex-wrap justify-center">
             <div className="w-5/6 max-w-screen-lg">
-                <div className="p-4">
-                    <p className="text-lg text-center text-blue-800 font-bold">Angler Trip Reports</p>
-                    <button
-                        onClick={toggleForm}
-                        className={`${buttonPsuedos}`}
-                    >{toggleText}</button>
-                </div>
+            <div className="p-4">
+                <p className="text-lg text-center text-blue-800 font-bold">Angler Trip Reports</p>
+                {addReportElements}
+            </div>
                 { showForm && 
                     <form 
                         onSubmit={handleSubmit}
