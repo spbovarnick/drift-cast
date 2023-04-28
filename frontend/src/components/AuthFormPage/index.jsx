@@ -23,7 +23,6 @@ export default function AuthFormPage({ buttonPsuedos, setCurrentUser, setCurrent
         event.preventDefault()
         if (formType === 'login') {
             const data = await logIn(authFormData)
-            console.log(data)
             localStorage.setItem('userToken', data.token)
             localStorage.setItem('userName', data.userName)
             setCurrentUser(data.userName)
