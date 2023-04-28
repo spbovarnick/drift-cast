@@ -5,10 +5,10 @@ const reportSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    userName: {
-        type: String,
-        required: true
-    },
+    // userName: {
+    //     type: String,
+    //     required: true
+    // },
     tripDate: {
         type: Date,
         required: false

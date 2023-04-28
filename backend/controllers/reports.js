@@ -1,18 +1,46 @@
+const jwt = require('jwt-simple')
 const express = require('express')
 const router = express.Router()
 const db = require("../models")
+// multer package
 const multer  = require('multer')
+// name encyption/generator
 const crypto = require('crypto')
+// image resizer
 const sharp = require('sharp')
+// s3 middleware
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
-
-
+// storage to handle file upload
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
+// JWT config
+const config = require('../../jwt.config.js')
 
+/* JWT middleware to check if a JWT sent from client
+is valid on all routes that require auth
+-----------------------------------------------------*/
+const authMiddleware = (req, res, next) => {
+    // check for 'Authorization' header for toke
+    const token = req.headers.authorization;
+    if (token) {
+        try {
+            // decode token with secret key, add decoded payload to req
+            const decodedToken = jwt.decode(token, config.jwtSecret);
+            req.user = decodedToken;
+            next();
+        } catch (err) {
+            res.status(401).json({ message: 'Invalid token' });
+        }
+    } else {
+        // error if 'Authorization' header missing or inccorrect
+        res.status(401).json({ message: 'Missing or invalid Authorization header' })
+    }
+}
+
+// access to AWS/S3 keys in .env
 require('dotenv').config()
 
 // assigning S3 variable from .env
@@ -68,7 +96,7 @@ router.get('/', async function(req, res) {
 })
 
 // Create route (POST)
-router.post('/', upload.single('image'), async (req, res) => {
+router.post('/', upload.single('image'),  authMiddleware, async (req, res) => {
     if (req.file) {
         // load filed to memory
         const imgClean = await sharp(req.file.buffer)
@@ -98,18 +126,24 @@ router.post('/', upload.single('image'), async (req, res) => {
             console.log(error)
         } finally {
             // send report object to MongoDB
-            db.Report.create(req.body)
+            db.Report.create({
+                ...req.body,
+                userId: req.user.id
+            })
                 .then(report => res.json(report))
     }} else {
         // send report object to MongoDB
-        db.Report.create(req.body)
+        db.Report.create({
+            ...req.body,
+            userId: req.user.id
+        })
             .then(report => res.json(report))
     }
 
 })
 
 // Update Route (PUT)
-router.put('/:id', upload.single('image'), async (req, res) => {
+router.put('/:id', upload.single('image'), authMiddleware, async (req, res) => {
     if (req.file) {
         // load file to memory
         const imgClean = await sharp(req.file.buffer)
