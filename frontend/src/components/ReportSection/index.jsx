@@ -3,9 +3,8 @@ import { postReport, getReports } from "../../../utils/backend";
 import { getData } from "../../../utils/api";
 import Report from "../Report";
 
-export default function ReportSection({ siteCode, buttonPsuedos, currentUser }) {
+export default function ReportSection({ siteCode, buttonPsuedos, currentUser, currentUserId }) {
     const [file, setFile] = useState(false)
-    // const [currentUser, setCurrentUser] = useState()
     const [showForm, setShowForm] = useState(false)
     const [tripDate, setTripDate] = useState(false)
     const [createFormData, setCreateFormData] = useState({
@@ -118,6 +117,8 @@ export default function ReportSection({ siteCode, buttonPsuedos, currentUser }) 
     if (reports.length > 0) {
         reportElements = reports.map(report => {
             return <Report 
+                currentUserId={currentUserId}
+                currentUser={currentUser}
                 key={report._id}
                 report={report}
                 siteCode={siteCode}
@@ -147,7 +148,7 @@ export default function ReportSection({ siteCode, buttonPsuedos, currentUser }) 
    
 
     return (
-        <div className="mt-20 flex flex-wrap justify-center">
+        <div className="mt-20 flex flex-wrap justify-center mb-20">
             <div className="w-5/6 max-w-screen-lg">
             <div className="p-4">
                 <p className="text-lg text-center text-blue-800 font-bold">Angler Trip Reports</p>

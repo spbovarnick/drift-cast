@@ -17,6 +17,7 @@ function App() {
   const [detailPage, setDetailPage] = useState()
   const [conditions, setConditions] = useState()
   const [currentUser, setCurrentUser] = useState("")
+  const [currentUserId, setCurrentUserId] = useState(undefined)
   
 
   let staticGaugeHeights = [
@@ -108,6 +109,7 @@ function App() {
     <div className='min-h-screen'>
       <NavBar 
         currentUser={currentUser}
+        setCurrentUserId={setCurrentUserId}
         setCurrentUser={setCurrentUser}
       />
 
@@ -131,6 +133,7 @@ function App() {
           path='/details/:id'
           element={
             <DetailsPage 
+              currentUserId={currentUserId}
               currentUser={currentUser}
               riverData={detailPage}
               setDetailPage={setDetailPage}
@@ -152,6 +155,7 @@ function App() {
         <Route 
           path='/auth/:formType'
           element={<AuthFormPage 
+            setCurrentUserId={setCurrentUserId}
             setCurrentUser={setCurrentUser}
             buttonPsuedos={buttonPsuedos}
           />}

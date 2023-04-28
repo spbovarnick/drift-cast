@@ -46,7 +46,8 @@ router.post('/login', async (req, res) => {
         res.json({
             token: token,
             email: foundUser.email,
-            userName: foundUser.username
+            userName: foundUser.username,
+            userId: foundUser.id
         })
     } else {
         res.sendStatus(401)

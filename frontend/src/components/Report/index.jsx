@@ -6,7 +6,7 @@ import placeholder from "../../assets/static/placeholder.jpg"
 
 
 
-export default function Report({ report, getMaxDateTime, refreshReports, buttonPsuedos, siteCode, }) {
+export default function Report({ report, getMaxDateTime, refreshReports, buttonPsuedos, siteCode, currentUser, currentUserId }) {
     const [file, setFile] = useState(false)
     const [reportUser, setReportUser] = useState({})
     const [showUpdateForm, setShowUpdateForm] = useState(false)
@@ -120,7 +120,9 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
     }
     
     let actions
-    if (reportUser._id === report.userId) {
+    console.log(currentUserId)
+    console.log(report.userId)
+    if (currentUserId === report.userId) {
         actions = 
             <div className="flex justify-between">
                 <button

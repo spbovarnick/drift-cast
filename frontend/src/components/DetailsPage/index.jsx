@@ -4,7 +4,7 @@ import { getData } from "../../../utils/api"
 import { defineConditions } from "../../../utils/api"
 import ReportSection from "../ReportSection"
 
-export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeights, conditions, setConditions, buttonPsuedos, currentUser }) {
+export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeights, conditions, setConditions, buttonPsuedos, currentUser, currentUserId }) {
 
     const {id} = useParams()
    
@@ -93,12 +93,13 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
     }
     
     return (
-        <div className="h-screen">
+        <div>
         <div className="flex flex-wrap justify-center">
             
         {detailsContent}
         </div>
         { riverData && <ReportSection 
+            currentUserId={currentUserId}
             currentUser={currentUser}
             siteCode={riverData.siteCode}
             buttonPsuedos={buttonPsuedos}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { signUp, logIn } from "../../../utils/backend";
 
-export default function AuthFormPage({ buttonPsuedos, setCurrentUser }) {
+export default function AuthFormPage({ buttonPsuedos, setCurrentUser, setCurrentUserId }) {
     const [authFormData, setAuthFormData] = useState({
         email: '',
         username: '',
@@ -25,10 +25,12 @@ export default function AuthFormPage({ buttonPsuedos, setCurrentUser }) {
             const data = await logIn(authFormData)
             localStorage.setItem('userToken', data.token)
             setCurrentUser(data.userName)
+            setCurrentUserId(data.userId)
         } else {
             const data = await signUp(authFormData)
             localStorage.setItem('userToken', data.token)
             setCurrentUser(data.userName)
+            setCurrentUserId(data.userId)
         }
         navigate('/')
     }

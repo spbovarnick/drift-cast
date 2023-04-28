@@ -29,6 +29,8 @@ export default function NavBar({ currentUser, setCurrentUser }) {
       </Link>
       </>
 
+    console.log(currentUser)
+    
     let loggedInAs
     if (currentUser) {
       userActionElements = 
