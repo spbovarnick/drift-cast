@@ -12,7 +12,6 @@ const config = require('../../jwt.config.js')
 router.get('/:userId', (req, res) => {
     db.User.findById(req.params.userId)
         .then(user => {
-            console.log(user)
             res.json(user)
             return
         })
