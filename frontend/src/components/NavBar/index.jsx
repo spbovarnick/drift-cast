@@ -13,6 +13,52 @@ export default function NavBar() {
       }
     }
 
+    let userActionElements = 
+      <>
+      <Link to='/auth/login'>
+          <li className="nav-item">
+              <span
+              className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
+              >Log In</span>
+          </li>
+      </Link>
+      <Link to='/auth/signup'>
+          <li className="nav-item">
+              <span
+              className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
+              >Sign Up</span>
+          </li>
+      </Link>
+      </>
+
+    let loggedInAs
+    if (localStorage.getItem("userName")) {
+      userActionElements = 
+        <>
+        <li 
+          className="nav-item cursor-pointer"
+          onClick={logout}
+        >
+            <span
+            className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
+            >Log Out</span>
+        </li>
+        </>;
+        loggedInAs = <>
+          <li>
+              <span
+              className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800"
+              ><i className="fa fa-user fa-lg mr-2"></i>Logged in as {localStorage.getItem("userName")}
+              </span>
+          </li>
+          <li>
+              <span
+              className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800"
+              > | </span>
+          </li>
+        </>
+    }
+
     return (
         <nav className="relative flex flex-wrap items-center justify-between py-3 mb-3 border-b-2 border-blue-200">
         <div className="container mx-auto flex flex-wrap items-center justify-between">
@@ -39,6 +85,7 @@ export default function NavBar() {
             }
           >
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+                {loggedInAs}
                 <Link to='/'>
                     <li className="nav-item">
                         <span
@@ -60,28 +107,7 @@ export default function NavBar() {
                         >About</span>
                     </li>
                 </Link>
-                <Link to='/auth/login'>
-                    <li className="nav-item">
-                        <span
-                        className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
-                        >Log In</span>
-                    </li>
-                </Link>
-                <Link to='/auth/signup'>
-                    <li className="nav-item">
-                        <span
-                        className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
-                        >Sign Up</span>
-                    </li>
-                </Link>
-                <li 
-                  className="nav-item cursor-pointer"
-                  onClick={logout}
-                >
-                    <span
-                    className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
-                    >Log Out</span>
-                </li>
+                {userActionElements}
             </ul>
           </div>
         </div>
