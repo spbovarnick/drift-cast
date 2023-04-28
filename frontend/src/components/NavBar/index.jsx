@@ -3,12 +3,13 @@ import { Link } from "react-router-dom"
 import { useState } from "react";
 
 
-export default function NavBar({ currentUser, setCurrentUser }) {
+export default function NavBar({ currentUser, setCurrentUser, setCurrentUserId }) {
     const [navbarOpen, setNavbarOpen] = useState(false);
 
     const logout = () => {
         localStorage.removeItem("userToken")
         setCurrentUser("")
+        setCurrentUserId("")
     }
 
     let userActionElements = 
