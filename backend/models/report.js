@@ -28,6 +28,11 @@ const reportSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: false
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     }
 }, { timestamps: true})
 

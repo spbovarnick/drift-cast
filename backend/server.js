@@ -8,6 +8,7 @@ const cors = require('cors')
 /* Required routes in controllers folder
 -------------------------------------------- */
 const reportCtrl = require('./controllers/reports')
+const usersCtrl = require('./controllers/users')
 
 /* Required db connection, models
 -------------------------------------------- */
@@ -26,6 +27,7 @@ app.use(express.json());
 /* look at controllers to handle routes
 -------------------------------------------- */
 app.use('/api/reports', reportCtrl);
+app.use('/api/users', usersCtrl)
 
 /* listen to specified port
 -------------------------------------------- */
