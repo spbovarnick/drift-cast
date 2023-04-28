@@ -120,8 +120,6 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
     }
     
     let actions
-    console.log(currentUserId)
-    console.log(report.userId)
     if (currentUserId === report.userId) {
         actions = 
             <div className="flex justify-between">
