@@ -58,7 +58,7 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
         }
     }, [conditions, riverData, setConditions, defineConditions])
 
-   
+   console.log(riverData)
 
     let detailsContent = <p>Loading...</p>
     if (riverData && conditions) {
