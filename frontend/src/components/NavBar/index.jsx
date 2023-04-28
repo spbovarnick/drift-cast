@@ -13,7 +13,7 @@ export default function NavBar({ currentUser, setCurrentUser, setCurrentUserId }
         setCurrentUser("")
         setCurrentUserId("")
     }
-    console.log(localStorage)
+
     let userActionElements = 
       <>
       <Link to='/auth/login'>
