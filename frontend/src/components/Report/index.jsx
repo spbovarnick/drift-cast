@@ -1,21 +1,30 @@
 import { useState, useEffect } from "react"
 import { updateReport, deleteReport } from "../../../utils/backend"
 import { getData } from "../../../utils/api"
+import { getUser } from "../../../utils/backend"
 import placeholder from "../../assets/static/placeholder.jpg"
 
 
 
 export default function Report({ report, getMaxDateTime, refreshReports, buttonPsuedos, siteCode, }) {
     const [file, setFile] = useState(false)
+    const [user, setUser] = useState({})
     const [showUpdateForm, setShowUpdateForm] = useState(false)
     const [tripDate, setTripDate] = useState(false)
     const [updateFormData, setUpdateFormData] = useState({
-        userName: report.userName,
         tripDate: report.tripDate,
         gageHeight: report.gageHeight,
         report: report.report,
         image: report.image,
     })
+    
+    useEffect(() => {
+        getUser(report.userId)
+            .then((user) => {
+               return user
+            })
+                .then(res => setUser(res))
+    }, [])
 
     useEffect(() => {
         if (updateFormData.tripDate) {
@@ -51,7 +60,6 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
             })
         }
     }
-
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -111,25 +119,9 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
         </div>
     }
 
-    let reportElement =
-        <div className="p-4 m-4 border-2 rounded-md text-blue-800">
-            <div className={"flex flex-col md:flex-row md:justify-between"}>
-                <p className="m-1"><span className="font-medium">User:</span> {report.userName}</p> 
-                <p className="m-1"><span className="font-medium">Posted at:</span> {readableCreatedAt}</p>
-                {updatedDiv}
-            </div>
-            {gageAndTrip}
-            
-            <div className="flex flex-col md:flex-row md: justify-around mt-4">
-                <div className="md:w-1/2">
-                    <p className="font-medium">Report details:</p>
-                    <p className="h-fit border-2 rounded-md p-2 my-2 border-blue-200 overflow-auto">{report.report}</p>
-                </div>
-                <img 
-                    className="w-80 border-2 border-white my-2 rounded-md" 
-                    src={report.imageUrl ? report.imageUrl : placeholder}
-                />
-            </div>
+    let actions
+    if (user._id === report.userId) {
+        actions = 
             <div className="flex justify-between">
                 <button
                     onClick={() => {toggler()}}
@@ -140,6 +132,27 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                     className="hover:opacity-70 active:shadow-inner active:outline active:outline-2 outline-red-800 transition-all active:opacity-100 bg-red-600 font-medium rounded-full p-2 w-fit text-white"
                 >Delete</button>
             </div>
+    }
+
+    let reportElement =
+        <div className="p-4 m-4 border-2 rounded-md text-blue-800">
+            <div className={"flex flex-col md:flex-row md:justify-between"}>
+                <p className="m-1"><span className="font-medium">Reported by:</span> {user.username}</p> 
+                <p className="m-1"><span className="font-medium">Posted at:</span> {readableCreatedAt}</p>
+                {updatedDiv}
+            </div>
+            {gageAndTrip}
+            <div className="flex flex-col md:flex-row md: justify-around mt-4">
+                <div className="md:w-1/2">
+                    <p className="font-medium">Report details:</p>
+                    <p className="h-fit border-2 rounded-md p-2 my-2 border-blue-200 overflow-auto">{report.report}</p>
+                </div>
+                <img 
+                    className="w-80 border-2 border-white my-2 rounded-md" 
+                    src={report.imageUrl ? report.imageUrl : placeholder}
+                />
+            </div>
+            {actions}
         </div>
 
     if (showUpdateForm) {
@@ -154,18 +167,6 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                     onSubmit={handleSubmit}
                 >
                     <div className="flex flex-col items-start">
-                        <div className="flex flex-col m-2">
-                            <label>Username: </label>
-                            <input 
-                                required
-                                className="rounded-md border-blue-400"
-                                type="text"
-                                placeholder="Your username"
-                                onChange={handleInputChange}
-                                name="userName"
-                                value={updateFormData.userName}
-                            />
-                        </div>
                         <div className="flex flex-col m-2">
                             <label>Trip date and time:</label>
                             <input 

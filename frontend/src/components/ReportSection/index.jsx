@@ -9,7 +9,6 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
     const [tripDate, setTripDate] = useState(false)
     const [createFormData, setCreateFormData] = useState({
         siteCode: siteCode,
-        userName: '',
         tripDate: '',
         gageHeight: '',
         report: '',
@@ -64,7 +63,6 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
     const submissionReset = () => {
         setCreateFormData({
             siteCode: siteCode,
-            userName: '',
             tripDate: '',
             gageHeight: '',
             report: '',
@@ -140,7 +138,7 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
         <div className="mt-20 flex flex-wrap justify-center">
             <div className="w-5/6 max-w-screen-lg">
                 <div className="p-4">
-                    <p className="text-lg text-center text-blue-800 font-bold">Angler Reports</p>
+                    <p className="text-lg text-center text-blue-800 font-bold">Angler Trip Reports</p>
                     <button
                         onClick={toggleForm}
                         className={`${buttonPsuedos}`}
@@ -152,18 +150,6 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
                         className="flex flex-col text-blue-800 mx-4 bg-sky-100 rounded-lg p-2"    
                     >
                         <div className="flex flex-col items-start">
-                            <div className="flex flex-col m-2">
-                                <label>Username: </label>
-                                <input 
-                                    className="rounded-md border-blue-400"
-                                    required
-                                    type="text"
-                                    placeholder="Your username"
-                                    onChange={handleInputChange}
-                                    name="userName"
-                                    value={createFormData.userName}
-                                />
-                            </div>
                             <div className="flex flex-col m-2">
                                 <label>Trip date and time:</label>
                                 <input 

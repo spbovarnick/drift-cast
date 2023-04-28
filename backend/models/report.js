@@ -5,10 +5,6 @@ const reportSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    userName: {
-        type: String,
-        required: true
-    },
     tripDate: {
         type: Date,
         required: false
@@ -28,6 +24,11 @@ const reportSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: false
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     }
 }, { timestamps: true})
 

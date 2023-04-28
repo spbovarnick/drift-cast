@@ -8,5 +8,6 @@ const mongodbUri = process.env.MONGODBURI;
 })().catch(err => console.log('MongoDB connection error:\n' + err))
 
 module.exports = {
-    Report: require('./report')
+    Report: require('./report'),
+    User: require('./user')
 }
