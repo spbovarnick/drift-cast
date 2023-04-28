@@ -35,59 +35,67 @@ export default function AuthFormPage({ buttonPsuedos }) {
     }
 
     return (
-        <>
-        <h1>{actionText}</h1>
-        
-        <form
-            className=""
-            onSubmit={handleSubmit}
-        >
-            <label className="" htmlFor="email">
-                Email
-            </label>
-            <input
-                className=""
-                id="email"
-                name="email"
-                type="email"
-                onChange={handleInputChange}
-                required
-                placeholder="Email address"
-            />
-
-            <label className="" htmlFor="username">
-                Username
-            </label>
-            <input
-                className=""
-                id="username"
-                name="username"
-                type="text"
-                minLength="4"
-                onChange={handleInputChange}
-                required
-                placeholder="Username"
-            />
+        <div className="h-screen mt-8">
+            <h1 className="text-center text-blue-800 text-2xl font-bold mb-4">{actionText}</h1>
             
-            <label className="" htmlFor="">
-                Password
-            </label>
-            <input
-                className=""
-                id="password"
-                name="password"
-                type="password"
-                minLength="6"
-                onChange={handleInputChange}
-                required
-                placeholder="Password"
-            />
-            <button
-                type="submit"
-                className={`uppercase ${buttonPsuedos}`}>
-                {actionText}
-            </button>
-        </form>
-        </>
+            <div className="flex justify-center mt-12">
+                <form
+                    className="flex flex-col text-blue-800 p-8 bg-sky-100 rounded-lg p-2"
+                    onSubmit={handleSubmit}
+                >
+                    <div className="flex flex-col m-2">
+                        <label htmlFor="email">
+                            Email
+                        </label>
+                        <input
+                            className="rounded-md border-blue-400"
+                            id="email"
+                            name="email"
+                            type="email"
+                            onChange={handleInputChange}
+                            required
+                            placeholder="Email address"
+                        />
+                    </div>
+                    <div className="flex flex-col w-5/6 max-w-lg m-2">
+                        <label htmlFor="username">
+                            Username
+                        </label>
+                        <input
+                            className="rounded-md border-blue-400"
+                            id="username"
+                            name="username"
+                            type="text"
+                            minLength="4"
+                            onChange={handleInputChange}
+                            required
+                            placeholder="Username"
+                        />
+                        <p className="text-xs">Minimum 4 characters</p>
+                    </div>
+                    <div className="flex flex-col w-5/6 max-w-lg m-2">
+                        <label htmlFor="">
+                            Password
+                        </label>
+                        <input
+                            className="rounded-md border-blue-400"
+                            id="password"
+                            name="password"
+                            type="password"
+                            minLength="6"
+                            onChange={handleInputChange}
+                            required
+                            placeholder="Password"
+                        />
+                        <p className="text-xs">Minimum 8 characters</p>
+                    </div>
+                    <button
+                        type="submit"
+                        className={`uppercase mt-4 self-center ${buttonPsuedos}`}>
+                        {actionText}
+                    </button>
+                </form>
+            </div>
+        </div>
     );
 }
