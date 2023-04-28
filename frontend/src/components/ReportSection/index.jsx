@@ -5,6 +5,7 @@ import Report from "../Report";
 
 export default function ReportSection({ siteCode, buttonPsuedos }) {
     const [file, setFile] = useState(false)
+    // const [currentUser, setCurrentUser] = useState()
     const [showForm, setShowForm] = useState(false)
     const [tripDate, setTripDate] = useState(false)
     const [createFormData, setCreateFormData] = useState({
@@ -15,6 +16,8 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
         image: '',
     })
     const [reports, setReports] = useState([])
+
+    console.log(localStorage)
 
     useEffect(() => {
         getReports(siteCode)

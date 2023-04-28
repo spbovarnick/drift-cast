@@ -12,9 +12,6 @@ export default function AuthFormPage({ buttonPsuedos }) {
     const navigate = useNavigate()
     const { formType } = useParams()
 
-    let actionText
-    formType === 'login' ? actionText = "Log In" : actionText = "Sign Up"
-
     const handleInputChange = (event) => {
         setAuthFormData({
             ...authFormData,
@@ -25,15 +22,41 @@ export default function AuthFormPage({ buttonPsuedos }) {
     const handleSubmit = async (event) => {
         event.preventDefault()
         if (formType === 'login') {
-            const { token } = await logIn(authFormData)
-            localStorage.setItem('userToken', token)
+            const data = await logIn(authFormData)
+            localStorage.setItem('userToken', data.token)
+            localStorage.setItem('userName', data.userName)
         } else {
-            const { token } = await signUp(authFormData)
-            localStorage.setItem('userToken', token)
+            const data = await signUp(authFormData)
+            localStorage.setItem('userToken', data.token)
+            localStorage.setItem('userName', data.userName)
         }
         navigate('/')
     }
 
+    let emailElement
+    if (formType !== 'login') {
+        emailElement = 
+        <div className="flex flex-col m-2">
+            <label htmlFor="email">
+                Email
+            </label>
+            <input
+                className="rounded-md border-blue-400"
+                id="email"
+                name="email"
+                type="email"
+                onChange={handleInputChange}
+                required
+                placeholder="Email address"
+            />
+        </div>
+    }
+
+    let actionText
+    formType === 'login' ? actionText = "Log In" : actionText = "Sign Up"
+
+    console.log(localStorage)
+    console.log(localStorage.userName)
     return (
         <div className="h-screen mt-8">
             <h1 className="text-center text-blue-800 text-2xl font-bold mb-4">{actionText}</h1>
@@ -43,7 +66,7 @@ export default function AuthFormPage({ buttonPsuedos }) {
                     className="flex flex-col text-blue-800 p-8 bg-sky-100 rounded-lg p-2"
                     onSubmit={handleSubmit}
                 >
-                    <div className="flex flex-col m-2">
+                    {/* <div className="flex flex-col m-2">
                         <label htmlFor="email">
                             Email
                         </label>
@@ -56,7 +79,8 @@ export default function AuthFormPage({ buttonPsuedos }) {
                             required
                             placeholder="Email address"
                         />
-                    </div>
+                    </div> */}
+                    {emailElement}
                     <div className="flex flex-col w-5/6 max-w-lg m-2">
                         <label htmlFor="username">
                             Username

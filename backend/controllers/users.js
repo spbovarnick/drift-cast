@@ -35,7 +35,7 @@ router.post('/signup', (req, res) => {
 // login to user acct
 router.post('/login', async (req, res) => {
     // find user by email in the db
-    const foundUser = await db.User.findOne({ email: req.body.email })
+    const foundUser = await db.User.findOne({ username: req.body.username })
 
     // check that user is found and entered correct pwd
     if (foundUser && foundUser.password === req.body.password) {
@@ -45,7 +45,7 @@ router.post('/login', async (req, res) => {
         res.json({
             token: token,
             email: foundUser.email,
-            username: foundUser.username
+            userName: foundUser.username
         })
     } else {
         res.sendStatus(401)

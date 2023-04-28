@@ -6,6 +6,13 @@ import { useState } from "react";
 export default function NavBar() {
     const [navbarOpen, setNavbarOpen] = useState(false);
 
+    const logout = () => {
+      if (localStorage.getItem("userToken")) {
+        localStorage.removeItem("userToken")
+        localStorage.removeItem("userName")
+      }
+    }
+
     return (
         <nav className="relative flex flex-wrap items-center justify-between py-3 mb-3 border-b-2 border-blue-200">
         <div className="container mx-auto flex flex-wrap items-center justify-between">
@@ -67,6 +74,14 @@ export default function NavBar() {
                         >Sign Up</span>
                     </li>
                 </Link>
+                <li 
+                  className="nav-item cursor-pointer"
+                  onClick={logout}
+                >
+                    <span
+                    className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800 hover:opacity-75 hover:scale-110 transition-all"
+                    >Log Out</span>
+                </li>
             </ul>
           </div>
         </div>

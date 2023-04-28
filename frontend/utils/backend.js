@@ -13,11 +13,13 @@ export const getUser = async (userId) => {
 
 export const signUp = async (user) => {
     const { data } = await axios.post('/api/users/signup', user)
+    console.log(data)
     return data
 }
 
 export const logIn = async (user) => {
     const { data } = await axios.post('/api/users/login', user)
+    console.log(data)
     return data
 }
 
