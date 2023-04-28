@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { getData } from "../../../utils/api"
 import { defineConditions } from "../../../utils/api"
@@ -65,13 +65,11 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
                 .then(res => setWeather(res.properties.periods[0]))
     }, [])
 
-   console.log(riverData)
-
     let detailsContent = <p>Loading...</p>
     if (riverData && conditions) {
         detailsContent = <div className="w-5/6 max-w-screen-lg mt-4">
             <p className="text-center text-blue-800 text-xl font-bold mb-8">{riverData.name}</p>
-            <div className={`p-4`}>
+            <div className="p-4">
                 <div className="flex flex-col md:flex-row h-4/5">
                     <iframe
                         className="mr-2 w-full"
@@ -86,13 +84,19 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
                         <p className={`p-2 mt-4 text-center underline underline-offset-4 text-blue-800 font-medium border-4 rounded-md border-${conditions.color}`}>{conditions.fullDescription}</p>
                     </div>
                 </div>
-                <div className="mt-4">
-                    <div className="text-blue-800">
+                <div className="flex flex-col md:flex-row mt-4 text-blue-800">
+                    <div className="border-2 rounded-md border-blue-400 p-4 mb-4 w-full mr-1">
+                        <p className="font-bold text-lg text-center mb-2 border-b-2">Weather Conditions</p>
+                        <p><span className="font-medium">Short forecast: </span>{weather.shortForecast}</p>
+                        <p><span className="font-medium">Temperature: </span>{weather.temperature} &#8457;</p>
+                        <p><span className="font-medium">Wind: </span>{weather.windSpeed}</p>
+                        <p><span className="font-medium">Chance of precipitation: </span>{weather.probabilityOfPrecipitation.value}%</p>
+                        <p><span className="font-medium">Humidity: </span>{weather.relativeHumidity.value}</p>
+                    </div>
+                    <div className="border-2 rounded-md border-blue-400 p-4 w-full ml-1 h-fit">
+                        <p className="font-bold text-lg text-center mb-2 border-b-2">Stream Conditions</p>
                         <p className="mb-2"><span className="font-medium">Gauge height: </span>{riverData.height} feet</p>
                         <p><span className="font-medium">Flow: </span>{riverData.flow} cfs</p>
-                    </div>
-                    <div>
-
                     </div>
                 </div>
             </div>
