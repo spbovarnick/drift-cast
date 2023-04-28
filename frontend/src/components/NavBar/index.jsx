@@ -8,10 +8,12 @@ export default function NavBar({ currentUser, setCurrentUser, setCurrentUserId }
 
     const logout = () => {
         localStorage.removeItem("userToken")
+        localStorage.removeItem("userName")
+        localStorage.removeItem("userId")
         setCurrentUser("")
         setCurrentUserId("")
     }
-
+    console.log(localStorage)
     let userActionElements = 
       <>
       <Link to='/auth/login'>
@@ -29,11 +31,10 @@ export default function NavBar({ currentUser, setCurrentUser, setCurrentUserId }
           </li>
       </Link>
       </>
-
-    console.log(currentUser)
-    
+    let token = localStorage.getItem("userToken")
+    let userName = localStorage.getItem("userName")
     let loggedInAs
-    if (currentUser) {
+    if (token) {
       userActionElements = 
         <>
         <li 
@@ -49,7 +50,7 @@ export default function NavBar({ currentUser, setCurrentUser, setCurrentUserId }
           <li>
               <span
               className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800"
-              ><i className="fa fa-user fa-lg mr-2"></i>Logged in as {currentUser}
+              ><i className="fa fa-user fa-lg mr-2"></i>Logged in as {userName}
               </span>
           </li>
           <li>

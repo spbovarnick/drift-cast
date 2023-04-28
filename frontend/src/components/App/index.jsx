@@ -16,8 +16,8 @@ function App() {
   const [riverData, setRiverData] = useState([])
   const [detailPage, setDetailPage] = useState()
   const [conditions, setConditions] = useState()
-  const [currentUser, setCurrentUser] = useState("")
-  const [currentUserId, setCurrentUserId] = useState(undefined)
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem("userName"))
+  const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("userId"))
   
 
   let staticGaugeHeights = [
