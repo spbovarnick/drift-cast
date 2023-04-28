@@ -55,7 +55,6 @@ export default function AuthFormPage({ buttonPsuedos, setCurrentUser }) {
     let actionText
     formType === 'login' ? actionText = "Log In" : actionText = "Sign Up"
 
-    console.log(localStorage)
     return (
         <div className="h-screen mt-8">
             <h1 className="text-center text-blue-800 text-2xl font-bold mb-4">{actionText}</h1>

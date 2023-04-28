@@ -17,8 +17,6 @@ export default function ReportSection({ siteCode, buttonPsuedos }) {
     })
     const [reports, setReports] = useState([])
 
-    console.log(localStorage)
-
     useEffect(() => {
         getReports(siteCode)
             .then(reports => setReports([...reports]))
