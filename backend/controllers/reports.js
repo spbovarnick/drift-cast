@@ -198,7 +198,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 
     const userReport = await db.Report.findById(req.params.id)
     if (userReport.userId == req.user.id) {
-        if (report.image){
+        if (userReport.image){
             const command = new DeleteObjectCommand({
                 Bucket: bucketName,
                 Key: report.image
