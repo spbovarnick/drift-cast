@@ -9,6 +9,7 @@ import HomePage from '../HomePage'
 import About from '../About'
 import RiversIndex from '../RiversIndex'
 import AuthFormPage from '../AuthFormPage'
+import PageNotFound from '../PageNotFound'
 
 
 function App() {
@@ -148,6 +149,10 @@ function App() {
           element={<AuthFormPage 
             buttonPsuedos={buttonPsuedos}
           />}
+        />
+        <Route 
+          path='*'
+          element={<PageNotFound />}
         />
       </Routes>
 
