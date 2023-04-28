@@ -59,6 +59,7 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
         }
     }, [conditions, riverData, setConditions, defineConditions])
 
+
     useEffect(() => {
         getData(`https://api.weather.gov/points/${riverData.latitude},${riverData.longitude}`)
             .then(res => getData(res.properties.forecastHourly))
@@ -77,6 +78,9 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
             <p><span className="font-medium">Humidity: </span>{weather.relativeHumidity.value}</p>
         </div>
     }
+
+   console.log(riverData)
+
 
     let detailsContent = <p>Loading...</p>
     if (riverData && conditions) {
