@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { signUp, logIn } from "../../../utils/backend";
 
-export default function AuthFormPage({ buttonPsuedos }) {
+export default function AuthFormPage({ buttonPsuedos, setCurrentUser }) {
     const [authFormData, setAuthFormData] = useState({
         email: '',
         username: '',
@@ -24,11 +24,11 @@ export default function AuthFormPage({ buttonPsuedos }) {
         if (formType === 'login') {
             const data = await logIn(authFormData)
             localStorage.setItem('userToken', data.token)
-            localStorage.setItem('userName', data.userName)
+            setCurrentUser(data.userName)
         } else {
             const data = await signUp(authFormData)
             localStorage.setItem('userToken', data.token)
-            localStorage.setItem('userName', data.userName)
+            setCurrentUser(data.userName)
         }
         navigate('/')
     }
@@ -56,7 +56,6 @@ export default function AuthFormPage({ buttonPsuedos }) {
     formType === 'login' ? actionText = "Log In" : actionText = "Sign Up"
 
     console.log(localStorage)
-    console.log(localStorage.userName)
     return (
         <div className="h-screen mt-8">
             <h1 className="text-center text-blue-800 text-2xl font-bold mb-4">{actionText}</h1>

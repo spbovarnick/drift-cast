@@ -3,14 +3,12 @@ import { Link } from "react-router-dom"
 import { useState } from "react";
 
 
-export default function NavBar() {
+export default function NavBar({ currentUser, setCurrentUser }) {
     const [navbarOpen, setNavbarOpen] = useState(false);
 
     const logout = () => {
-      if (localStorage.getItem("userToken")) {
         localStorage.removeItem("userToken")
-        localStorage.removeItem("userName")
-      }
+        setCurrentUser("")
     }
 
     let userActionElements = 
@@ -32,7 +30,7 @@ export default function NavBar() {
       </>
 
     let loggedInAs
-    if (localStorage.getItem("userName")) {
+    if (currentUser) {
       userActionElements = 
         <>
         <li 
@@ -48,12 +46,12 @@ export default function NavBar() {
           <li>
               <span
               className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800"
-              ><i className="fa fa-user fa-lg mr-2"></i>Logged in as {localStorage.getItem("userName")}
+              ><i className="fa fa-user fa-lg mr-2"></i>Logged in as {currentUser}
               </span>
           </li>
           <li>
               <span
-              className="ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800"
+              className="hidden lg:inline ml-2 px-3 py-2 flex items-center font-serif font-bold leading-snug text-blue-800"
               > | </span>
           </li>
         </>
