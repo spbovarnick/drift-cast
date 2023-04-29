@@ -35,6 +35,7 @@ BUCKET_NAME=<YOUR_S3_BUCKET_NAME>
 BUCKET_REGION=<YOUR_S3_BUCKET_REGION>
 S3_ACCESS_KEY=<YOUR_S3_ACCESS_KEY>
 S3_SECRET_ACCESS_KEY=<YOUR_S3_SECRET_ACCESS_KEY>
+JWT_SECRET_KEY=<YOUR_JWT_SECRET_KEY>
 ```
 
 The USGS API does not require any special tokens or keys to access. Pretty cool!
@@ -63,4 +64,4 @@ I'd attempted to use [PhotoSwipe](https://photoswipe.com/), but was unable to ge
 
 ## Next Steps
 - Expanding the number of rivers featured on DriftCast
-- Adding user authentication to protect reports
+- Expanding user functionality to enable user-to-user inteaction, tagging, replies and messaging
