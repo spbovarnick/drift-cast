@@ -38,8 +38,8 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
                         obj.siteName = res.value.timeSeries[i].sourceInfo.siteName,
                         obj.latitude = res.value.timeSeries[i].sourceInfo.geoLocation.geogLocation.latitude,
                         obj.longitude = res.value.timeSeries[i].sourceInfo.geoLocation.geogLocation.longitude,
-                        obj.flow = parseInt(res.value.timeSeries[i].values[0].value[0].value), 
-                        obj.height = parseInt(res.value.timeSeries[i += 1].values[0].value[0].value),
+                        obj.flow = res.value.timeSeries[i].values[0].value[0].value, 
+                        obj.height = res.value.timeSeries[i += 1].values[0].value[0].value,
                         obj.goodLow = goodLow,
                         obj.goodHigh = goodHigh,
                         obj.perfectHigh = perfectHigh,
@@ -61,10 +61,12 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
 
 
     useEffect(() => {
-        getData(`https://api.weather.gov/points/${riverData.latitude},${riverData.longitude}`)
-            .then(res => getData(res.properties.forecastHourly))
-                .then(res => setWeather(res.properties.periods[0]))
-    }, [])
+        if (riverData) {
+            getData(`https://api.weather.gov/points/${riverData.latitude},${riverData.longitude}`)
+                .then(res => getData(res.properties.forecastHourly))
+                    .then(res => setWeather(res.properties.periods[0]))
+        }
+    }, [riverData])
 
     let weatherElements
     if (weather) {
