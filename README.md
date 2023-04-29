@@ -3,6 +3,10 @@ DriftCast is a mobile-ready application for angler's. So far, DriftCast features
 
 Using real-time stream gage data from the U.S. Geological Survey API, atmospheric data from the National Weather Service API and knowledge developed from years of experience on the water, DriftCast allows Portland-area anglers to quickly check the conditions on popular streams.
 
+Users get a quick-view index of all featured rivers. Each quick-view "card" communicates whether conditions are favorable for fishing based on current river gage height. Cards are clickable and take users to a detail page where users can see more specific stream and atmospheric data about that river as well as user trip reports.
+
+Using JWT, users can create an account and login to CRUD their own trip reports or river detail pages.
+
 ![Drifcast landing page](/frontend/src/assets/static/readMeImgs/homepageGrab.jpg)
 
 ## Technologies Used
