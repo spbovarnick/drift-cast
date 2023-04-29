@@ -1,7 +1,7 @@
 # DriftCast
 DriftCast is a mobile-ready application for angler's. So far, DriftCast features three rivers popular in and around Portland, OR.
 
-Using real-time stream gage data from the USGS API and knowledge developed from years of experience on the water, DriftCast allows Portland-area anglers to quickly check the conditions on popular streams.
+Using real-time stream gage data from the U.S. Geological Survey API, atmospheric data from the National Weather Service API and knowledge developed from years of experience on the water, DriftCast allows Portland-area anglers to quickly check the conditions on popular streams.
 
 ![Drifcast landing page](/frontend/src/assets/static/readMeImgs/homepageGrab.jpg)
 
@@ -21,6 +21,7 @@ Using real-time stream gage data from the USGS API and knowledge developed from 
 - crypto
 - sharp
 - @tailwindcss/forms
+- jwt-simple
 
 ## Installation Instructions
 Of course, [DriftCast](https://drift-cast.herokuapp.com/) is hosted and live on heroku.
@@ -62,5 +63,4 @@ I'd attempted to use [PhotoSwipe](https://photoswipe.com/), but was unable to ge
 
 ## Next Steps
 - Expanding the number of rivers featured on DriftCast
-- Incoporating the [NWS API](https://weather-gov.github.io/api/) to provide users with real time atmospheric weather info
 - Adding user authentication to protect reports
