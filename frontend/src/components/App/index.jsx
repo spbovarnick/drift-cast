@@ -44,11 +44,19 @@ function App() {
         perfectHigh: 13,
         highHigh: 15,
         tooHighHigh: 18,
+    },
+    {
+        name: "Mckenzie River",
+        goodLow: 0.9,
+        goodHigh: 1.5,
+        perfectHigh: 2.25,
+        highHigh: 4.5,
+        tooHighHigh: 8,
     }
   ]
 
   useEffect(() => {
-  getData("https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=14142500,%2014301500,%2014210000&parameterCd=00060,00065&siteStatus=all")
+  getData("https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=14142500,%2014301500,%2014210000,%2014162500&parameterCd=00060,00065&siteStatus=all")
     .then((res) => {
       let arr = []
       for (let i = 0; i < res.value.timeSeries.length; i += 1) {
