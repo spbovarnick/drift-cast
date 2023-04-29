@@ -1,5 +1,5 @@
 # DriftCast
-DriftCast is a mobile-ready application for angler's. So far, DriftCast features three rivers popular in and around Portland, OR.
+DriftCast is a mobile-ready application for angler's. So far, DriftCast features several popular rivers around Northwest Oregon.
 
 Using real-time stream gage data from the U.S. Geological Survey API, atmospheric data from the National Weather Service API and knowledge developed from years of experience on the water, DriftCast allows Portland-area anglers to quickly check the conditions on popular streams.
 
