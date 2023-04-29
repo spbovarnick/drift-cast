@@ -76,7 +76,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                     .then(() => setFile(false))
         // how to handle if form does not include image
         } else if (!file) {
-            updateReport(updateFormData, report.id)
+            updateReport(updateFormData, report._id)
                 .then(() => refreshReports())
         }
     }
@@ -171,7 +171,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                             <label>Trip date and time:</label>
                             <input 
                                 className="rounded-md border-blue-400"
-                                type="date"
+                                type="datetime-local"
                                 max={getMaxDateTime()}
                                 onChange={(e) => {
                                     handleInputChange(e)
@@ -180,7 +180,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                                     }, 1000)
                                 }}
                                 name="tripDate"
-                                value={updateFormData.tripDate ? updateFormData.tripDate : ''}
+                                value={updateFormData.tripDate ? updateFormData.tripDate.slice(0, 16) : ''}
                             />
                         </div>
                     </div>

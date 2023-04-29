@@ -25,6 +25,7 @@ export default function AuthFormPage({ buttonPsuedos, setCurrentUser, setCurrent
             const data = await logIn(authFormData)
             localStorage.setItem('userToken', data.token)
             localStorage.setItem('userName', data.userName)
+            localStorage.setItem('userId', data.userId)
             setCurrentUser(data.userName)
             setCurrentUserId(data.userId)
         } else {

@@ -47,5 +47,5 @@ export const updateReport = async (report, id) => {
 }
 
 export const  deleteReport = async (id) => {
-    const { data } = await axios.delete(`/api/reports/${id}`, authHeader)
+    const { data } = await axios.delete(`/api/reports/${id}`, { headers: { 'Authorization': localStorage.getItem('userToken') } })
 }

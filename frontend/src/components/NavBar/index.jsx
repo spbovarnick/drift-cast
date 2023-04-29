@@ -1,10 +1,14 @@
 // navbar cribbed from https://www.creative-tim.com/learning-lab/tailwind-starter-kit/documentation/react/navbars
 import { Link } from "react-router-dom"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 export default function NavBar({ currentUser, setCurrentUser, setCurrentUserId }) {
     const [navbarOpen, setNavbarOpen] = useState(false);
+
+    useEffect(() => {
+      setCurrentUserId(localStorage.getItem("userId"))
+    }, [])
 
     const logout = () => {
         localStorage.removeItem("userToken")
