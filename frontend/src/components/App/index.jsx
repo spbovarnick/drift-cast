@@ -46,17 +46,33 @@ function App() {
         tooHighHigh: 18,
     },
     {
-        name: "Mckenzie River",
+        name: "McKenzie River",
         goodLow: 0.9,
         goodHigh: 1.5,
         perfectHigh: 2.25,
         highHigh: 4.5,
         tooHighHigh: 8,
+    },
+    {
+        name: "Nehalem River",
+        goodLow: 5.5,
+        goodHigh: 6.3,
+        perfectHigh: 7.1,
+        highHigh: 9.0,
+        tooHighHigh: 13
+    },
+    {
+        name: "South Santiam River",
+        goodLow: 2,
+        goodHigh: 2.5,
+        perfectHigh: 4.5,
+        highHigh: 6.5,
+        tooHighHigh: 9,
     }
   ]
 
   useEffect(() => {
-  getData("https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=14142500,%2014301500,%2014210000,%2014162500&parameterCd=00060,00065&siteStatus=all")
+  getData("https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=14142500,%2014301500,%2014210000,%2014162500,%2014301000,%2014187500&parameterCd=00060,00065&siteStatus=all")
     .then((res) => {
       let arr = []
       for (let i = 0; i < res.value.timeSeries.length; i += 1) {
@@ -68,6 +84,9 @@ function App() {
           name[x] = name[x].charAt(0).toUpperCase() + name[x].substring(1)
         }
         name = name.join(" ")
+        if (name === "Mckenzie River") {
+        name = "McKenzie River"
+        }
         let goodLow, goodHigh, perfectHigh, highHigh, tooHighHigh
         staticGaugeHeights.forEach((q) => {
           if (q.name === name) {
