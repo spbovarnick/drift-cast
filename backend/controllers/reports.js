@@ -62,6 +62,53 @@ const s3 = new S3Client({
     region: bucketRegion
 })
 
+
+// put/post for reports with image file
+const imgPutPost = async (req, response) => {
+    // load filed to memory
+    const imgClean = await sharp(req.file.buffer)
+        .resize({
+            height: null,
+            width: 720
+        })
+            .jpeg({ mozjpeg: true })
+                .toBuffer()
+    // generate random name
+    const imageName = randomImageName()
+    // instantiate new PutObjecCommand object with
+    // S3 bucket credentials and file name
+    const command = new PutObjectCommand({
+        Bucket: bucketName,
+        Key: imageName,
+        Body: imgClean,
+        ContentType: req.file.mimetype,
+    })
+    // match image field value to S3 file name
+    req.body.image = imageName
+    try {
+        // send file to S3 bucket
+        await s3.send(command)
+    } catch (error) {
+        console.log(error)
+    } finally {
+        // send report object to MongoDB
+        if (req.method === "POST"){
+            db.Report.create({
+                ...req.body,
+                userId: req.user.id
+            })
+                .then(report => response.json(report))
+        } else if (req.method === "PUT") {
+            db.Report.findByIdAndUpdate(
+                req.params.id,
+                req.body,
+                { new: true }
+            )
+                .then(report => response.json(report))
+        }
+    }
+}
+
 /* Routes
 ------------------------------ */ 
 // Index route (GET), displays all
@@ -83,40 +130,8 @@ router.get('/river/:siteCode', async function(req, res) {
 // Create route (POST)
 router.post('/', upload.single('image'),  authMiddleware, async (req, res) => {
     if (req.file) {
-        // load filed to memory
-        const imgClean = await sharp(req.file.buffer)
-                            .resize({
-                                height: null,
-                                width: 720
-                            })
-                            .jpeg({ mozjpeg: true })
-                            .toBuffer()
-        // generate random name
-        const imageName = randomImageName()
-        // instantiate new PutObjecCommand object with
-        // S3 bucket credentials and file name
-        const command = new PutObjectCommand({
-            Bucket: bucketName,
-            Key: imageName,
-            Body: imgClean,
-            ContentType: req.file.mimetype,
-        })
-        // match image field value to S3 file name
-        req.body.image = imageName
-        
-        try {
-            // send file to S3 bucket
-            await s3.send(command)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            // send report object to MongoDB
-            db.Report.create({
-                ...req.body,
-                userId: req.user.id
-            })
-                .then(report => res.json(report))
-    }} else {
+        imgPutPost(req, res)
+    } else {
         // send report object to MongoDB
         db.Report.create({
             ...req.body,
@@ -132,40 +147,8 @@ router.put('/:id', upload.single('image'), authMiddleware, async (req, res) => {
     const userReport = await db.Report.findById(req.params.id)
     if (userReport.userId == req.user.id) {
         if (req.file) {
-            // load file to memory
-            const imgClean = await sharp(req.file.buffer)
-                                .resize({
-                                    height: null,
-                                    width: 720
-                                })
-                                .jpeg({ mozjpeg: true })
-                                .toBuffer() 
-            // generate random name
-            const imageName = randomImageName()
-            // instantiate new PutObjecCommand object with
-            // S3 bucket credentials and file name
-            const command = new PutObjectCommand({
-                Bucket: bucketName,
-                Key: imageName,
-                Body: imgClean,
-                ContentType: req.file.mimetype,
-            })
-            // match image field value to S3 file name
-            req.body.image = imageName
-            try {
-                // send file to S3 bucket
-                await s3.send(command)
-            } catch (error) {
-                console.log(error)
-            } finally {
-                // send report object to MongoDB
-                db.Report.findByIdAndUpdate(
-                    req.params.id,
-                    req.body,
-                    { new: true }
-                )
-                    .then(report => res.json(report))
-        }} else {
+            imgPutPost(req, res)
+        } else {
             db.Report.findByIdAndUpdate(
                 req.params.id,
                 req.body,
