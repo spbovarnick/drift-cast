@@ -85,7 +85,7 @@ function App() {
         }
         name = name.join(" ")
         if (name === "Mckenzie River") {
-        name = "McKenzie River"
+          name = "McKenzie River"
         }
         let goodLow, goodHigh, perfectHigh, highHigh, tooHighHigh
         staticGaugeHeights.forEach((q) => {

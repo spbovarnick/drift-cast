@@ -10,7 +10,6 @@ export const getData = async (url) => {
       }
 }
 
-
 export const defineConditions = (height, goodLow, goodHigh, perfectHigh, highHigh, tooHighHigh) => {
   let conditions
   if (height <= goodLow ) {
