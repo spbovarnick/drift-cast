@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { getData } from '../../../utils/api'
+import { getData, nameMaker } from '../../../utils/api'
 import NavBar from '../NavBar'
 import Footer from '../Footer'
 import Card from '../Card'
@@ -77,16 +77,17 @@ function App() {
       let arr = []
       for (let i = 0; i < res.value.timeSeries.length; i += 1) {
         // a bunch of logic to get the rivery name capitalized from the object's "siteName" key
-        let nameVar = res.value.timeSeries[i].sourceInfo.siteName.toLowerCase()
-        const index = nameVar.indexOf("river")
-        let name = nameVar.slice(0, index + 5).split(" ")
-        for (let x = 0; x < name.length; x++) {
-          name[x] = name[x].charAt(0).toUpperCase() + name[x].substring(1)
-        }
-        name = name.join(" ")
-        if (name === "Mckenzie River") {
-          name = "McKenzie River"
-        }
+        let name = nameMaker(res.value.timeSeries[i].sourceInfo.siteName)
+        // let nameVar = res.value.timeSeries[i].sourceInfo.siteName.toLowerCase()
+        // const index = nameVar.indexOf("river")
+        // let name = nameVar.slice(0, index + 5).split(" ")
+        // for (let x = 0; x < name.length; x++) {
+        //   name[x] = name[x].charAt(0).toUpperCase() + name[x].substring(1)
+        // }
+        // name = name.join(" ")
+        // if (name === "Mckenzie River") {
+        //   name = "McKenzie River"
+        // }
         let goodLow, goodHigh, perfectHigh, highHigh, tooHighHigh
         staticGaugeHeights.forEach((q) => {
           if (q.name === name) {

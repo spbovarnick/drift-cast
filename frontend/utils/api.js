@@ -27,3 +27,18 @@ export const defineConditions = (height, goodLow, goodHigh, perfectHigh, highHig
   }
   return conditions
 }
+
+export const nameMaker = (siteName) => {
+  let nameVar = siteName.toLowerCase()
+  const index = nameVar.indexOf("river")
+  let name = nameVar.slice(0, index + 5).split(" ")
+  for (let x = 0; x < name.length; x++) {
+      name[x] = name[x].charAt(0).toUpperCase() + name[x].substring(1)
+  }
+  name = name.join(" ")
+  if (name === "Mckenzie River") {
+      name = "McKenzie River"
+      return name
+  }
+  return name
+}
