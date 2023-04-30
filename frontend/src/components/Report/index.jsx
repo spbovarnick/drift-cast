@@ -12,6 +12,7 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
     const [showUpdateForm, setShowUpdateForm] = useState(false)
     const [tripDate, setTripDate] = useState(false)
     const [updateFormData, setUpdateFormData] = useState({
+        siteCode: siteCode,
         tripDate: report.tripDate,
         gageHeight: report.gageHeight,
         report: report.report,
@@ -61,6 +62,11 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
         }
     }
 
+    for (const [key, value] of Object.entries(updateFormData)) {
+        if (value === null) {
+            setUpdateFormData({...updateFormData, [key]: ""})
+        }
+    }
     const handleSubmit = (event) => {
         event.preventDefault()
         setShowUpdateForm(false)
