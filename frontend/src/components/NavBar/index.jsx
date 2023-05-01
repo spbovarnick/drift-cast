@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { useState, useEffect } from "react";
 
 
-export default function NavBar({ currentUser, setCurrentUser, setCurrentUserId }) {
+export default function NavBar({ setCurrentUser, setCurrentUserId }) {
     const [navbarOpen, setNavbarOpen] = useState(false);
 
     useEffect(() => {

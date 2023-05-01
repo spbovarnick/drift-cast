@@ -6,7 +6,7 @@ import placeholder from "../../assets/static/placeholder.jpg"
 
 
 
-export default function Report({ report, getMaxDateTime, refreshReports, buttonPsuedos, siteCode, currentUser, currentUserId }) {
+export default function Report({ report, getMaxDateTime, refreshReports, buttonPsuedos, siteCode, currentUserId }) {
     const [file, setFile] = useState(false)
     const [reportUser, setReportUser] = useState("")
     const [showUpdateForm, setShowUpdateForm] = useState(false)
