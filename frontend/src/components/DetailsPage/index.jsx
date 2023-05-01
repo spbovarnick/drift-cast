@@ -15,7 +15,6 @@ export default function DetailsPage({ riverData, setDetailPage, staticGaugeHeigh
                 .then((res) => {
                     let obj = {}
                     for (let i = 0; i < res.value.timeSeries.length; i += 1) {
-                        // a bunch of logic to get the rivery name capitalized from the object's "siteName" key
                         let name = nameMaker(res.value.timeSeries[i].sourceInfo.siteName)
                         let goodLow, goodHigh, perfectHigh, highHigh, tooHighHigh
                         staticGaugeHeights.forEach((q) => {
