@@ -76,8 +76,9 @@ export default function Report({ report, getMaxDateTime, refreshReports, buttonP
                 uFormData.append(key, value)
             }
             updateReport(uFormData, report._id)
-                .then(() => {
-                        refreshReports()
+                .then(() => { setTimeout(() => {
+                    refreshReports()
+                }, 1000)
                 })
                     .then(() => setFile(false))
         // how to handle if form does not include image
