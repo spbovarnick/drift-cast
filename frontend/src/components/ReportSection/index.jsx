@@ -92,7 +92,10 @@ export default function ReportSection({ siteCode, buttonPsuedos, currentUser, cu
         // how to handle if form does not include image
         } else if (!file) {
             postReport(createFormData)
-                .then(() => refreshReports())
+                .then(() => { setTimeout(() => {
+                    refreshReports()
+                }, 1000)
+                })
         }
         submissionReset()
     }
